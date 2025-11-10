@@ -2,6 +2,7 @@
 
 import clsx from "clsx"
 import anime from "animejs"
+import type { CSSProperties } from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
 import styles from "./TopicGame.module.css"
 
@@ -43,6 +44,16 @@ type SpacingVisualConfig = {
   hasMargin?: boolean
 }
 
+type BoxVisualConfig = {
+  background?: string
+  color?: string
+  width?: number
+  height?: number
+  border?: string
+  borderRadius?: number
+  label?: string
+}
+
 type TopicGameVisual =
   | {
       type: "link"
@@ -73,6 +84,11 @@ type TopicGameVisual =
       type: "spacing"
       initialOptionId?: string
       variants: Record<string, SpacingVisualConfig>
+    }
+  | {
+      type: "box"
+      initialOptionId?: string
+      variants: Record<string, BoxVisualConfig>
     }
 
 export interface TopicGameContent {
@@ -305,6 +321,9 @@ export default function TopicGame({ game }: TopicGameProps) {
         break
       case "spacing":
         visualElement = <SpacingVisual config={visualConfig as SpacingVisualConfig} />
+        break
+      case "box":
+        visualElement = <BoxVisual config={visualConfig as BoxVisualConfig} />
         break
       default:
         visualElement = null
@@ -738,6 +757,42 @@ function SpacingVisual({ config }: { config: SpacingVisualConfig }) {
       </div>
       <div className={styles.spacingLegend}>
         padding: {config.padding}px · margin: {config.margin}px
+      </div>
+    </div>
+  )
+}
+
+function BoxVisual({ config }: { config: BoxVisualConfig }) {
+  const boxRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (!boxRef.current) return
+    anime.remove(boxRef.current)
+    anime({
+      targets: boxRef.current,
+      opacity: [0, 1],
+      scale: [0.95, 1],
+      duration: 420,
+      easing: "easeOutBack",
+    })
+  }, [config])
+
+  const width = config.width ?? 220
+  const height = config.height ?? 140
+
+  const style: CSSProperties = {
+    width: `${width}px`,
+    height: `${height}px`,
+    background: config.background ?? "linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(236, 233, 255, 0.85))",
+    color: config.color ?? "#1f2937",
+    border: config.border ?? "1px solid rgba(148, 163, 184, 0.28)",
+    borderRadius: config.borderRadius !== undefined ? `${config.borderRadius}px` : "16px",
+  }
+
+  return (
+    <div className={clsx(styles.visual, styles.boxVisual)}>
+      <div ref={boxRef} className={styles.boxSample} style={style}>
+        <span>{config.label ?? "Namuna"}</span>
       </div>
     </div>
   )
