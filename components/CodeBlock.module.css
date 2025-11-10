@@ -22,10 +22,10 @@
   position: relative;
   overflow: hidden;
   border-radius: 18px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.1), rgba(15, 23, 42, 0.92) 65%);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(17, 24, 39, 0.95);
   color: #f1f5f9;
-  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.16);
 }
 
 .codeSurface pre {
@@ -34,14 +34,14 @@
   overflow-x: auto;
   font-family: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
   font-size: 0.92rem;
-  line-height: 1.65;
+  line-height: 1.7;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
 .codeSurface.light {
-  background: linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(226, 232, 240, 0.9));
-  color: var(--color-slate-900);
+  background: rgba(255, 255, 255, 0.94);
+  color: #111827;
 }
 
 .codeSurface.correct {
@@ -52,17 +52,59 @@
   border-top: 3px solid rgba(248, 113, 113, 0.85);
 }
 
+.codeSurface code {
+  display: block;
+}
+
+.token {
+  transition: color 0.2s ease;
+}
+
+.token.selector {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.token.property {
+  color: #0ea5e9;
+}
+
+.token.value {
+  color: #14b8a6;
+}
+
+.token.hex {
+  color: #f97316;
+}
+
+.token.number {
+  color: #facc15;
+}
+
+.token.tag {
+  color: #7c3aed;
+  font-weight: 600;
+}
+
+.token.attr {
+  color: #fb7185;
+}
+
+.token.punctuation {
+  color: #94a3b8;
+}
+
 .resultCard {
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  box-shadow: var(--shadow-soft);
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow: 0 24px 44px -32px rgba(79, 70, 229, 0.4);
   overflow: hidden;
-  background: linear-gradient(160deg, rgba(226, 232, 240, 0.4), rgba(226, 232, 240, 0.75));
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .resultHeader {
-  background: rgba(15, 23, 42, 0.85);
-  color: #e2e8f0;
+  background: rgba(79, 70, 229, 0.1);
+  color: #4338ca;
   padding: 12px 18px;
   font-size: 0.85rem;
   font-weight: 600;
@@ -77,7 +119,7 @@
   width: 100%;
   min-height: 320px;
   border: none;
-  background: #fff;
+  background: #ffffff;
 }
 
 @media (max-width: 640px) {

@@ -1,7 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import clsx from "clsx"
+import anime from "animejs"
+import { useEffect, useRef, useState } from "react"
+import { useAnimeReveal } from "@/hooks/use-anime-reveal"
 import CodeBlock from "./code-block"
+import TopicGame, { TopicGameContent } from "./topic-game"
+import styles from "./TopicSection.module.css"
 
 interface Topic {
   id: string
@@ -18,31 +23,74 @@ interface Topic {
 interface TopicSectionProps {
   topic: Topic
   index: number
+  game?: TopicGameContent
 }
 
-export default function TopicSection({ topic, index }: TopicSectionProps) {
+export default function TopicSection({ topic, index, game }: TopicSectionProps) {
   const [expanded, setExpanded] = useState(index === 0)
+  const sectionRef = useAnimeReveal<HTMLElement>({
+    animation: {
+      translateY: [40, 0],
+      opacity: [0, 1],
+      duration: 820,
+      easing: "easeOutExpo",
+    },
+  })
+
+  const contentRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (!expanded || !contentRef.current) return
+
+    const container = contentRef.current
+    const animatedChildren = container.querySelectorAll<HTMLElement>("[data-anim-child]")
+
+    anime.remove([container, animatedChildren])
+
+    anime({
+      targets: container,
+      opacity: [0, 1],
+      translateY: [12, 0],
+      duration: 520,
+      easing: "easeOutQuad",
+    })
+
+    anime({
+      targets: animatedChildren,
+      opacity: [0, 1],
+      translateY: [24, 0],
+      duration: 640,
+      delay: anime.stagger(90, { start: 80 }),
+      easing: "easeOutCubic",
+    })
+  }, [expanded])
 
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <section className={styles.section} ref={sectionRef}>
       <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full px-6 py-4 bg-gray-50 hover:bg-gray-100 flex items-center justify-between transition-colors"
+        className={styles.toggle}
+        type="button"
+        onClick={() => setExpanded((prev) => !prev)}
+        aria-expanded={expanded}
+        aria-controls={`${topic.id}-content`}
       >
-        <h2 className="text-xl font-bold text-black text-left">{topic.title}</h2>
-        <span className={`text-2xl transition-transform ${expanded ? "rotate-180" : ""}`}>▼</span>
+        <div className={styles.titleGroup}>
+          <h2 className={styles.title}>{topic.title}</h2>
+          <p className={styles.subtitle}>Нажмите, чтобы {expanded ? "свернуть" : "раскрыть"} карточку</p>
+        </div>
+        <span className={clsx(styles.chevron, expanded && styles.chevronOpen)}>▼</span>
       </button>
 
       {expanded && (
-        <div className="px-6 py-6 space-y-6 bg-white">
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-2">📖 Объяснение</h3>
-            <p className="text-gray-700 leading-relaxed">{topic.explanation}</p>
+        <div className={styles.content} id={`${topic.id}-content`} ref={contentRef}>
+          <div className={styles.explanation} data-anim-child>
+            <h3>📖 Объяснение</h3>
+            <p>{topic.explanation}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-semibold text-green-700 mb-3">✅ Правильно</h3>
+          <div className={styles.columns}>
+            <div className={clsx(styles.panel, styles.correct)} data-anim-child>
+              <h3>✅ Правильно</h3>
               <CodeBlock
                 code={topic.correct}
                 isCorrect
@@ -51,18 +99,21 @@ export default function TopicSection({ topic, index }: TopicSectionProps) {
                 preview={topic.preview}
               />
             </div>
-            <div>
-              <h3 className="font-semibold text-red-700 mb-3">❌ Неправильно</h3>
+            <div className={clsx(styles.panel, styles.incorrect)} data-anim-child>
+              <h3>❌ Неправильно</h3>
               <CodeBlock code={topic.incorrect} isCorrect={false} />
             </div>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-semibold text-blue-900 mb-2">💡 Лучшие практики</h3>
-            <p className="text-blue-800">{topic.bestPractice}</p>
+          <div className={styles.bestPractice} data-anim-child>
+            <h3>💡 Лучшие практики</h3>
+            <p>{topic.bestPractice}</p>
           </div>
+
+          {game && <TopicGame game={game} />}
         </div>
       )}
-    </div>
+    </section>
   )
 }
+

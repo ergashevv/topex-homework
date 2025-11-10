@@ -1,57 +1,103 @@
 "use client"
 
+import { useAnimeReveal } from "@/hooks/use-anime-reveal"
+import styles from "./CombinedExample.module.css"
+
 interface CombinedExampleProps {
   language: "ru" | "uz"
 }
 
 export default function CombinedExample({ language }: CombinedExampleProps) {
   const isRussian = language === "ru"
+  const sectionRef = useAnimeReveal<HTMLElement>({
+    animation: {
+      opacity: [0, 1],
+      translateY: [60, 0],
+      duration: 820,
+      easing: "easeOutExpo",
+    },
+  })
+
+  const htmlCardRef = useAnimeReveal<HTMLDivElement>({
+    animation: {
+      opacity: [0, 1],
+      translateY: [36, 0],
+      duration: 720,
+      delay: 100,
+      easing: "easeOutExpo",
+    },
+  })
+
+  const cssCardRef = useAnimeReveal<HTMLDivElement>({
+    animation: {
+      opacity: [0, 1],
+      translateY: [36, 0],
+      duration: 720,
+      delay: 200,
+      easing: "easeOutExpo",
+    },
+  })
+
+  const previewRef = useAnimeReveal<HTMLDivElement>({
+    animation: {
+      scale: [0.95, 1],
+      opacity: [0, 1],
+      duration: 760,
+      delay: 260,
+      easing: "easeOutBack",
+    },
+  })
 
   return (
-    <section className="mt-16 pt-12 border-t-2 border-gray-200">
-      <h2 className="text-3xl font-bold text-black mb-8">{isRussian ? "🎯 Полный пример" : "🎯 To'liq misol"}</h2>
+    <section className={styles.section} ref={sectionRef}>
+      <h2 className={styles.heading}>{isRussian ? "🎯 Полный пример" : "🎯 To'liq misol"}</h2>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        <div>
-          <h3 className="text-lg font-semibold text-black mb-4">HTML</h3>
-          <pre className="bg-gray-900 text-green-400 rounded-lg p-4 overflow-x-auto font-mono text-sm">
-            {`<div class="card">
+      <div className={styles.grid}>
+        <div className={styles.codeCard} ref={htmlCardRef}>
+          <h3>HTML</h3>
+          <pre>{`<div class="card">
   <h2>Профиль</h2>
   <p>Добро пожаловать!</p>
   <a href="#profile">
     Подробнее
   </a>
-</div>`}
-          </pre>
+</div>`}</pre>
         </div>
 
-        <div>
-          <h3 className="text-lg font-semibold text-black mb-4">CSS</h3>
-          <pre className="bg-gray-900 text-green-400 rounded-lg p-4 overflow-x-auto font-mono text-sm">
-            {`.card {
+        <div className={styles.codeCard} ref={cssCardRef}>
+          <h3>CSS</h3>
+          <pre>{`.card {
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  margin: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  gap: 12px;
+  padding: 28px;
+  border-radius: 24px;
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 30px 60px -40px rgba(15, 23, 42, 0.55);
 }
 
 .card a {
-  margin-top: 10px;
-}`}
-          </pre>
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.card a:hover {
+  color: #1e3a8a;
+}`}</pre>
         </div>
       </div>
 
-      <div className="mt-8 p-8 border-2 border-blue-300 bg-blue-50 rounded-lg">
-        <h3 className="text-lg font-semibold text-blue-900 mb-4">{isRussian ? "📺 Результат" : "📺 Natija"}</h3>
-        <div className="card bg-white border border-gray-300 rounded-lg p-6 shadow-sm">
-          <h2 className="text-xl font-bold text-black mb-2">Профиль</h2>
-          <p className="text-gray-700 mb-4">Добро пожаловать!</p>
-          <a href="#profile" className="text-blue-500 hover:text-blue-700 font-medium">
-            {isRussian ? "Подробнее" : "Batafsil"}
-          </a>
+      <div className={styles.preview} ref={previewRef}>
+        <h3>{isRussian ? "📺 Результат" : "📺 Natija"}</h3>
+        <div className={styles.card}>
+          <h2>{isRussian ? "Профиль" : "Profil"}</h2>
+          <p>{isRussian ? "Добро пожаловать!" : "Xush kelibsiz!"}</p>
+          <a href="#profile">{isRussian ? "Подробнее" : "Batafsil"}</a>
         </div>
       </div>
     </section>

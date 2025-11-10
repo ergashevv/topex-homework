@@ -1,5 +1,9 @@
 "use client"
 
+import anime from "animejs"
+import { useAnimeReveal } from "@/hooks/use-anime-reveal"
+import styles from "./HomeworkSection.module.css"
+
 interface Task {
   title: string
   description: string
@@ -14,17 +18,37 @@ interface HomeworkSectionProps {
 }
 
 export default function HomeworkSection({ homework }: HomeworkSectionProps) {
-  return (
-    <section className="mt-16 pt-12 border-t-2 border-gray-200">
-      <h2 className="text-3xl font-bold text-black mb-4">{homework.title}</h2>
-      <p className="text-gray-600 mb-8">{homework.description}</p>
+  const sectionRef = useAnimeReveal<HTMLElement>({
+    animation: {
+      translateY: [60, 0],
+      opacity: [0, 1],
+      duration: 820,
+      easing: "easeOutExpo",
+    },
+  })
 
-      <div className="space-y-4">
+  const listRef = useAnimeReveal<HTMLDivElement>({
+    animation: (element) => ({
+      targets: element.querySelectorAll("article"),
+      opacity: [0, 1],
+      translateY: [28, 0],
+      duration: 680,
+      delay: anime.stagger(140, { start: 120 }),
+      easing: "easeOutCubic",
+    }),
+  })
+
+  return (
+    <section className={styles.section} ref={sectionRef}>
+      <h2>{homework.title}</h2>
+      <p>{homework.description}</p>
+
+      <div className={styles.list} ref={listRef}>
         {homework.tasks.map((task, index) => (
-          <div key={index} className="border-l-4 border-blue-500 bg-blue-50 p-6 rounded-r-lg">
-            <h3 className="text-lg font-semibold text-black mb-2">{task.title}</h3>
-            <p className="text-gray-700">{task.description}</p>
-          </div>
+          <article key={index} className={styles.task}>
+            <h3>{task.title}</h3>
+            <p>{task.description}</p>
+          </article>
         ))}
       </div>
     </section>

@@ -1,0 +1,83 @@
+@import "../styles/tokens.css";
+
+.section {
+  margin-top: 72px;
+  padding-top: 56px;
+  border-top: 1px solid rgba(148, 163, 184, 0.22);
+  display: grid;
+  gap: 20px;
+}
+
+.section h2 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.section > p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.68;
+  color: rgba(55, 65, 81, 0.8);
+}
+
+.list {
+  display: grid;
+  gap: 20px;
+  counter-reset: homework;
+}
+
+.task {
+  padding: 22px 26px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 26px 46px -36px rgba(79, 70, 229, 0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.task::before {
+  counter-increment: homework;
+  content: counter(homework, decimal-leading-zero);
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(124, 58, 237, 0.35);
+}
+
+.task:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 32px 56px -36px rgba(79, 70, 229, 0.45);
+}
+
+.task h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: #4f46e5;
+}
+
+.task p {
+  margin: 0;
+  color: rgba(30, 41, 59, 0.85);
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .section {
+    margin-top: 56px;
+    padding-top: 42px;
+  }
+
+  .task {
+    padding: 20px 22px;
+  }
+}
+@import "../styles/tokens.css";
+
+

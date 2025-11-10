@@ -1,0 +1,264 @@
+.section {
+  margin-top: 72px;
+  padding-top: 56px;
+  border-top: 1px solid rgba(148, 163, 184, 0.22);
+  display: grid;
+  gap: 32px;
+}
+
+.header {
+  display: grid;
+  gap: 10px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.header p {
+  margin: 0;
+  max-width: 720px;
+  color: rgba(55, 65, 81, 0.82);
+  line-height: 1.6;
+}
+
+.gamesGrid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.gameCard {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 24px;
+  box-shadow: 0 26px 48px -36px rgba(79, 70, 229, 0.35);
+  padding: 26px 24px 28px;
+  display: grid;
+  gap: 18px;
+}
+
+.gameHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: 1.35rem;
+  box-shadow: 0 14px 24px -18px rgba(79, 70, 229, 0.55);
+}
+
+.iconFlex {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+.iconStack {
+  background: linear-gradient(135deg, #f97316, #fb7185);
+}
+
+.gameHeader h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.prompt {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: rgba(30, 41, 59, 0.82);
+}
+
+.flexStage {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  background: rgba(79, 70, 229, 0.08);
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  min-height: 90px;
+  transition: background 0.3s ease;
+}
+
+.flexItem {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+.optionList {
+  display: grid;
+  gap: 12px;
+}
+
+.optionButton {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+  border-radius: 16px;
+  padding: 14px 18px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: #f9fafb;
+  font-family: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.86rem;
+  color: #1f2937;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.optionButton:hover {
+  border-color: rgba(79, 70, 229, 0.5);
+  box-shadow: 0 14px 26px -24px rgba(79, 70, 229, 0.45);
+  transform: translateY(-1px);
+}
+
+.optionButtonSelected {
+  border-color: rgba(79, 70, 229, 0.65);
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.optionButtonCorrect {
+  border-color: rgba(16, 185, 129, 0.75);
+  background: rgba(16, 185, 129, 0.1);
+  box-shadow: 0 18px 28px -24px rgba(5, 150, 105, 0.45);
+}
+
+.optionButtonIncorrect {
+  border-color: rgba(248, 113, 113, 0.7);
+  background: rgba(254, 226, 226, 0.6);
+}
+
+.status {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.statusIdle {
+  background: rgba(15, 23, 42, 0.05);
+  color: rgba(30, 41, 59, 0.6);
+}
+
+.statusCorrect {
+  background: rgba(16, 185, 129, 0.15);
+  color: rgba(4, 120, 87, 0.95);
+}
+
+.statusIncorrect {
+  background: rgba(248, 113, 113, 0.18);
+  color: rgba(185, 28, 28, 0.95);
+}
+
+.stackStage {
+  background: rgba(236, 233, 255, 0.6);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 24px;
+  padding: 28px;
+  display: grid;
+  justify-items: center;
+}
+
+.stackScene {
+  position: relative;
+  width: 240px;
+  height: 200px;
+}
+
+.stackCard {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 220px;
+  padding: 20px;
+  border-radius: 20px;
+  display: grid;
+  gap: 8px;
+  color: #ffffff;
+  box-shadow: 0 20px 32px -26px rgba(15, 23, 42, 0.65);
+}
+
+.stackCard h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.stackCard p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.stackCardPink {
+  background: linear-gradient(135deg, #fb7185, #ec4899);
+}
+
+.stackCardOrange {
+  background: linear-gradient(135deg, #f97316, #facc15);
+}
+
+.stackCardGreen {
+  background: linear-gradient(135deg, #22c55e, #10b981);
+}
+
+.code {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.92);
+  color: rgba(226, 232, 240, 0.95);
+  font-family: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.stackLegend {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(55, 65, 81, 0.75);
+}
+
+@media (max-width: 640px) {
+  .gameCard {
+    padding: 22px 20px 24px;
+  }
+
+  .flexStage {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .stackScene {
+    width: 200px;
+  }
+
+  .stackCard {
+    width: 190px;
+  }
+}
+

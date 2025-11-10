@@ -1,284 +1,364 @@
 "use client"
 
-import { useState } from "react"
+import clsx from "clsx"
+import anime from "animejs"
+import { useEffect, useMemo, useState } from "react"
 import Header from "@/components/header"
 import TopicSection from "@/components/topic-section"
 import CombinedExample from "@/components/combined-example"
 import HomeworkSection from "@/components/homework-section"
-
-const content = {
-  ru: {
-    title: "HTML и CSS для начинающих",
-    subtitle: "Изучите основные концепции веб-разработки",
-    topics: [
-      {
-        id: "link",
-        title: "HTML: Ссылки (<a href>)",
-        explanation:
-          "Элемент <a> используется для создания гиперссылок на другие страницы или ресурсы. Атрибут href указывает адрес целевой страницы.",
-        correct: `<a href="https://example.com" class="link">Перейти на сайт</a>`,
-        incorrect: `<a>Перейти на сайт</a>`,
-        bestPractice: "Всегда используйте атрибут href. Добавляйте описательный текст ссылки.",
-        preview: "combined",
-        htmlCode: `<a href="https://example.com" class="link">Перейти на сайт</a>`,
-        cssCode: `.link { color: #3b82f6; text-decoration: underline; font-weight: bold; padding: 10px 20px; display: inline-block; border-radius: 4px; background: #f0f9ff; transition: all 0.3s; } .link:hover { background: #e0f2fe; }`,
-      },
-      {
-        id: "div",
-        title: "HTML: Контейнер (<div>)",
-        explanation:
-          "<div> — это универсальный контейнер для группировки содержимого. Это блочный элемент, который занимает всю доступную ширину.",
-        correct: `<div class="container">
-  <h1>Заголовок</h1>
-  <p>Содержимое</p>
-</div>`,
-        incorrect: `<div>
-<h1>Заголовок</h1>
-<p>Содержимое</p>`,
-        bestPractice: "Используйте классы и ID для легкой стилизации. Структурируйте контент логично.",
-        preview: "combined",
-        htmlCode: `<div class="container">
-  <h1>Заголовок</h1>
-  <p>Содержимое контейнера</p>
-</div>`,
-        cssCode: `.container { border: 2px solid #3b82f6; padding: 20px; background: #f0f9ff; border-radius: 8px; } h1 { color: #1e40af; margin: 0 0 10px 0; font-size: 24px; } p { color: #1e3a8a; margin: 0; }`,
-      },
-      {
-        id: "display",
-        title: "CSS: Display - Flexbox",
-        explanation:
-          "Свойство display: flex создает гибкий контейнер. Элементы располагаются в ряд с помощью justify-content: center.",
-        correct: `.container { display: flex; justify-content: center; gap: 10px; }`,
-        incorrect: `.container { display: block; }`,
-        bestPractice: "Используйте flexbox для современных макетов и выравнивания.",
-        preview: "css",
-        htmlCode: `<div class="container">
-  <div class="item">Item 1</div>
-  <div class="item">Item 2</div>
-  <div class="item">Item 3</div>
-</div>`,
-        cssCode: `.container { display: flex; justify-content: center; gap: 10px; background: #f0f9ff; padding: 20px; border-radius: 8px; } .item { background: #3b82f6; color: white; padding: 15px 20px; border-radius: 6px; font-weight: bold; min-width: 80px; text-align: center; }`,
-      },
-      {
-        id: "zindex",
-        title: "CSS: Z-index - Наложение слоёв",
-        explanation:
-          "Z-index контролирует порядок наложения элементов. Работает только с позиционированными элементами (position: relative, absolute, fixed).",
-        correct: `.modal { position: fixed; z-index: 1000; background: white; }`,
-        incorrect: `.modal { z-index: 1000; }`,
-        bestPractice: "Используйте логичную систему значений z-index (например, 100, 200, 300).",
-        preview: "css",
-        htmlCode: `<div class="container">
-  <div class="item item1">Слой 1</div>
-  <div class="item item2">Слой 2</div>
-  <div class="item item3">Слой 3</div>
-</div>`,
-        cssCode: `.container { position: relative; height: 150px; background: #f3f4f6; border-radius: 8px; } .item { position: absolute; padding: 15px; border-radius: 6px; font-weight: bold; color: white; } .item1 { background: #ef4444; top: 10px; left: 10px; z-index: 1; } .item2 { background: #f59e0b; top: 30px; left: 40px; z-index: 2; } .item3 { background: #10b981; top: 50px; left: 70px; z-index: 3; }`,
-      },
-      {
-        id: "position",
-        title: "CSS: Position - Позиционирование",
-        explanation: "Position определяет способ позиционирования элемента: static, relative, absolute, fixed, sticky.",
-        correct: `.fixed-header { position: fixed; top: 0; width: 100%; }`,
-        incorrect: `.header { position: absolute; }`,
-        bestPractice: "Используйте fixed для заголовков, absolute для наложения на контекст.",
-        preview: "css",
-        htmlCode: `<div class="container">
-  <div class="fixed">Fixed</div>
-  <div class="static">Static</div>
-</div>`,
-        cssCode: `.container { position: relative; height: 120px; background: #f3f4f6; border-radius: 8px; padding: 10px; } .fixed { position: fixed; top: 10px; left: 10px; background: #3b82f6; color: white; padding: 10px 15px; border-radius: 6px; font-weight: bold; } .static { background: #10b981; color: white; padding: 10px 15px; border-radius: 6px; }`,
-      },
-      {
-        id: "margin-padding",
-        title: "CSS: Margin и Padding - Отступы",
-        explanation:
-          "Padding — внутреннее пространство внутри элемента. Margin — внешнее пространство вокруг элемента.",
-        correct: `.box { padding: 20px; margin: 10px 0; background: #dbeafe; }`,
-        incorrect: `.box { padding: 20px; padding: 10px; }`,
-        bestPractice: "Используйте сокращенную форму: margin: top right bottom left;",
-        preview: "css",
-        htmlCode: `<div class="container">
-  <div class="item">Элемент 1</div>
-  <div class="item">Элемент 2</div>
-  <div class="item">Элемент 3</div>
-</div>`,
-        cssCode: `.container { background: #e5e7eb; padding: 20px; border-radius: 8px; } .item { background: #3b82f6; color: white; padding: 20px; margin: 10px 0; border-radius: 6px; text-align: center; font-weight: bold; }`,
-      },
-    ],
-  },
-  uz: {
-    title: "Boshlang'ichlar uchun HTML va CSS",
-    subtitle: "Veb-development asosiy tushunchalarini o'rganing",
-    topics: [
-      {
-        id: "link",
-        title: "HTML: Havolalar (<a href>)",
-        explanation:
-          "<a> elementi boshqa sahifalar yoki manbalar uchun giper-havolalarni yaratish uchun ishlatiladi. href atributi maqsad sahifasining manzilini ko'rsatadi.",
-        correct: `<a href="https://example.com" class="link">Saytga o'ting</a>`,
-        incorrect: `<a>Saytga o'ting</a>`,
-        bestPractice: "Har doim href atributini ishlating. Havolaning matn tavsiflari bo'lsin.",
-        preview: "combined",
-        htmlCode: `<a href="https://example.com" class="link">Saytga o'ting</a>`,
-        cssCode: `.link { color: #3b82f6; text-decoration: underline; font-weight: bold; padding: 10px 20px; display: inline-block; border-radius: 4px; background: #f0f9ff; }`,
-      },
-      {
-        id: "div",
-        title: "HTML: Konteyner (<div>)",
-        explanation:
-          "<div> — bu muhimning guruhlashtirilishi uchun universal konteyner. Bu blok element bo'lib, barcha mavjud kenglikni egallaydi.",
-        correct: `<div class="container">
-  <h1>Sarlavha</h1>
-  <p>Mazmun</p>
-</div>`,
-        incorrect: `<div>
-<h1>Sarlavha</h1>
-<p>Mazmun</p>`,
-        bestPractice:
-          "Osonlikcha stilizatsiya qilish uchun sinflardan foydalaning. Kontent tarkibini mantiqiy saralang.",
-        preview: "combined",
-        htmlCode: `<div class="container">
-  <h1>Sarlavha</h1>
-  <p>Mazmun konteynerida</p>
-</div>`,
-        cssCode: `.container { border: 2px solid #3b82f6; padding: 20px; background: #f0f9ff; border-radius: 8px; } h1 { color: #1e40af; margin: 0 0 10px 0; } p { color: #1e3a8a; margin: 0; }`,
-      },
-      {
-        id: "display",
-        title: "CSS: Display - Flexbox",
-        explanation:
-          "Display xossasi elementning qanday ko'rsatilishini nazorat qiladi. Flexbox usuli elementlarni qator qilib joylashtiradi.",
-        correct: `.container { display: flex; justify-content: center; gap: 10px; }`,
-        incorrect: `.container { display: block; }`,
-        bestPractice: "Zamonaviy tartiblar uchun flexbox yoki grid-dan foydalaning.",
-        preview: "css",
-        htmlCode: `<div class="container">
-  <div class="item">Item 1</div>
-  <div class="item">Item 2</div>
-  <div class="item">Item 3</div>
-</div>`,
-        cssCode: `.container { display: flex; justify-content: center; gap: 10px; background: #f0f9ff; padding: 20px; border-radius: 8px; } .item { background: #3b82f6; color: white; padding: 15px 20px; border-radius: 6px; font-weight: bold; min-width: 80px; text-align: center; }`,
-      },
-      {
-        id: "zindex",
-        title: "CSS: Z-index - Qat'i tartib",
-        explanation:
-          "Z-index elementlarning qat'i tartibini nazorat qiladi. Faqat pozitsionlangan elementlar bilan ishlaydi.",
-        correct: `.modal { position: fixed; z-index: 1000; background: white; }`,
-        incorrect: `.modal { z-index: 1000; }`,
-        bestPractice: "Mantiqiy z-index qiymatlar sistemasidan foydalaning (masalan, 100, 200, 300).",
-        preview: "css",
-        htmlCode: `<div class="container">
-  <div class="item item1">Qat 1</div>
-  <div class="item item2">Qat 2</div>
-  <div class="item item3">Qat 3</div>
-</div>`,
-        cssCode: `.container { position: relative; height: 150px; background: #f3f4f6; border-radius: 8px; } .item { position: absolute; padding: 15px; border-radius: 6px; font-weight: bold; color: white; } .item1 { background: #ef4444; top: 10px; left: 10px; z-index: 1; } .item2 { background: #f59e0b; top: 30px; left: 40px; z-index: 2; } .item3 { background: #10b981; top: 50px; left: 70px; z-index: 3; }`,
-      },
-      {
-        id: "position",
-        title: "CSS: Position - Pozitsionlanish",
-        explanation:
-          "Position elementning pozitsionlanish usulini aniqlaydi: static, relative, absolute, fixed, sticky.",
-        correct: `.fixed-header { position: fixed; top: 0; width: 100%; }`,
-        incorrect: `.header { position: absolute; }`,
-        bestPractice: "Sarlavhalar uchun fixed, nisbiy pozitsionlanish uchun absolute-ni ishlating.",
-        preview: "css",
-        htmlCode: `<div class="container">
-  <div class="fixed">Fixed</div>
-  <div class="static">Static</div>
-</div>`,
-        cssCode: `.container { position: relative; height: 120px; background: #f3f4f6; border-radius: 8px; padding: 10px; } .fixed { position: fixed; top: 10px; left: 10px; background: #3b82f6; color: white; padding: 10px 15px; border-radius: 6px; font-weight: bold; } .static { background: #10b981; color: white; padding: 10px 15px; border-radius: 6px; }`,
-      },
-      {
-        id: "margin-padding",
-        title: "CSS: Margin va Padding - Bo'shliqlar",
-        explanation: "Padding — elementning ichidagi ichki bo'shliq. Margin — element atrofidagi tashqi bo'shliq.",
-        correct: `.box { padding: 20px; margin: 10px 0; background: #dbeafe; }`,
-        incorrect: `.box { padding: 20px; padding: 10px; }`,
-        bestPractice: "Qisqartirilgan shakldan foydalaning: margin: yuqori o'ng pastki chap;",
-        preview: "css",
-        htmlCode: `<div class="container">
-  <div class="item">Element 1</div>
-  <div class="item">Element 2</div>
-  <div class="item">Element 3</div>
-</div>`,
-        cssCode: `.container { background: #e5e7eb; padding: 20px; border-radius: 8px; } .item { background: #3b82f6; color: white; padding: 20px; margin: 10px 0; border-radius: 6px; text-align: center; font-weight: bold; }`,
-      },
-    ],
-  },
-}
-
-const homework = {
-  ru: {
-    title: "Домашнее задание",
-    description: "Практикуйте полученные навыки с этими упражнениями:",
-    tasks: [
-      {
-        title: "Задача 1: Создать навигацию",
-        description:
-          "Создайте навигационное меню с тремя ссылками (главная, о нас, контакты) с использованием HTML и CSS. Используйте flexbox для расположения элементов в ряд.",
-      },
-      {
-        title: "Задача 2: Позиционированная модальное окно",
-        description:
-          "Создайте модальное окно с использованием position: fixed и z-index. Добавьте кнопку для закрытия и полупрозрачный фон.",
-      },
-      {
-        title: "Задача 3: Карточка товара",
-        description:
-          'Создайте карточку товара с изображением, названием, ценой и ссылкой "Купить". Используйте padding, margin и display для оформления.',
-      },
-    ],
-  },
-  uz: {
-    title: "Uyga vazifa",
-    description: "Bu mashqlar orqali o'rganilgan ko'nikmalarni amaliyot qiling:",
-    tasks: [
-      {
-        title: "Vazifa 1: Navigatsiyani yaratish",
-        description:
-          "Uchta havoladagi (bosh sahifa, haqida, kontaktlar) navigatsion menyu yarating. HTML va CSS-dan foydalaning. Elementlarni qator qilib joylashtirish uchun flexbox-dan foydalaning.",
-      },
-      {
-        title: "Vazifa 2: Pozitsionlangan modal oyna",
-        description:
-          "position: fixed va z-index-dan foydalanib, modal oyna yarating. Yopish tugmasi va yarim shaffof fon qo'shing.",
-      },
-      {
-        title: "Vazifa 3: Tovar karochkasi",
-        description:
-          'Tovarning rasmini, nomini, narxini va "Sotib olish" havolasini o\'z ichiga olgan tovar karochkasi yarating. Oformlash uchun padding, margin va display-dan foydalaning.',
-      },
-    ],
-  },
-}
+import GameSection from "@/components/game-section"
+import {
+  courseContent,
+  courseHomework,
+  lessons,
+  scheduleSections,
+  topicGamesData,
+  type LessonMeta,
+} from "@/lib/course-data"
+import { useAnimeReveal } from "@/hooks/use-anime-reveal"
+import styles from "./page.module.css"
 
 export default function Home() {
   const [language, setLanguage] = useState<"ru" | "uz">("ru")
-  const currentContent = content[language]
-  const currentHomework = homework[language]
+  const [selectedLessonSlug, setSelectedLessonSlug] = useState<string | null>(null)
+  const todayISO = new Date().toISOString().slice(0, 10)
+
+  const scheduleGroups = useMemo(() => {
+    return scheduleSections
+      .map((section) => {
+        const localizedLessons = section.lessons
+          .filter((lesson) => lesson.languages[language])
+          .slice()
+          .sort((a, b) => a.date.localeCompare(b.date))
+        if (!localizedLessons.length) {
+          return null
+        }
+        const formatter = new Intl.DateTimeFormat(language === "ru" ? "ru-RU" : "uz-UZ", {
+          month: "long",
+          year: "numeric",
+        })
+        const localizedTitle =
+          language === "ru"
+            ? section.title
+            : formatter.format(new Date(localizedLessons[0].date)).replace(/^\p{Ll}/u, (char) =>
+                char.toUpperCase(),
+              )
+
+        return { title: localizedTitle, lessons: localizedLessons }
+      })
+      .filter((group): group is { title: string; lessons: LessonMeta[] } => Boolean(group))
+  }, [language])
+
+  const availableLessons = useMemo(
+    () => scheduleGroups.flatMap((group) => group.lessons),
+    [scheduleGroups],
+  )
+
+  useEffect(() => {
+    if (!availableLessons.length) {
+      if (selectedLessonSlug !== null) {
+        setSelectedLessonSlug(null)
+      }
+      return
+    }
+
+    if (!selectedLessonSlug || !availableLessons.some((lesson) => lesson.slug === selectedLessonSlug)) {
+      setSelectedLessonSlug(availableLessons[0].slug)
+    }
+  }, [availableLessons, selectedLessonSlug])
+
+  const selectedLessonMeta = selectedLessonSlug
+    ? availableLessons.find((lesson) => lesson.slug === selectedLessonSlug) ?? null
+    : null
+  const selectedLessonIsToday = selectedLessonMeta?.date === todayISO
+  const selectedLessonDateLabel = selectedLessonMeta
+    ? new Intl.DateTimeFormat(language === "ru" ? "ru-RU" : "uz-UZ", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }).format(new Date(selectedLessonMeta.date))
+    : null
+
+  const currentContent = courseContent[language]
+  const currentHomework = courseHomework[language]
+  const gamesForLanguage = topicGamesData[language] ?? {}
+  const hasLessonDetail = Boolean(selectedLessonSlug && selectedLessonMeta)
+
+  const heroRef = useAnimeReveal<HTMLElement>({
+    trigger: "immediate",
+    animation: {
+      opacity: [0, 1],
+      translateY: [50, 0],
+      duration: 820,
+      easing: "easeOutExpo",
+    },
+  })
+
+  const statsRef = useAnimeReveal<HTMLDivElement>({
+    animation: (element: HTMLElement) => ({
+      targets: element.querySelectorAll("[data-stat]"),
+      opacity: [0, 1],
+      translateY: [24, 0],
+      delay: anime.stagger(160, { start: 200 }),
+      duration: 640,
+      easing: "easeOutBack",
+    }),
+  })
+
+  const stats = useMemo(() => {
+    if (language === "ru") {
+      return [
+        { value: "12+", label: "Мини-уроков по HTML/CSS" },
+        { value: "30 мин", label: "Время до первых результатов" },
+        { value: "Практика", label: "Живые примеры и задачи" },
+      ]
+    }
+    return [
+      { value: "12+", label: "HTML/CSS bo‘yicha mini darslar" },
+      { value: "30 daq", label: "Natijani sezish vaqti" },
+      { value: "Amaliyot", label: "Jonli misollar va vazifalar" },
+    ]
+  }, [language])
+
+  const heroHtmlSample =
+    language === "ru"
+      ? `<button class="primary">Учиться сейчас</button>`
+      : `<button class="primary">Hozir o'rganing</button>`
+
+  const heroCssSample = `.primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: none;
+}`
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className={styles.main}>
       <Header language={language} setLanguage={setLanguage} />
 
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-black mb-4 text-balance">{currentContent.title}</h1>
-          <p className="text-lg text-gray-600">{currentContent.subtitle}</p>
-        </div>
+      <section className={styles.hero} ref={heroRef}>
+        <div className={styles.heroInner}>
+          <div className={styles.heroContent}>
+            <span className={styles.heroBadge}>
+              {language === "ru" ? "✨ Пошаговое обучение с нуля" : "✨ Boshlang‘ich bosqichdan qadamma-qadam"}
+            </span>
+            <h1>{currentContent.title}</h1>
+            <p>{currentContent.subtitle}</p>
 
-        <div className="space-y-12">
+            <div className={styles.groupSwitch} role="radiogroup" aria-label="Выбор учебной группы">
+              <button
+                type="button"
+                onClick={() => setLanguage("ru")}
+                className={clsx(styles.groupButton, language === "ru" && styles.groupButtonActive)}
+                aria-pressed={language === "ru"}
+              >
+                <span className={styles.groupLabel}>Русский поток</span>
+                <span className={styles.groupDescription}>Темы и дз для русскоязычных студентов</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage("uz")}
+                className={clsx(styles.groupButton, language === "uz" && styles.groupButtonActive)}
+                aria-pressed={language === "uz"}
+              >
+                <span className={styles.groupLabel}>O‘zbek guruhi</span>
+                <span className={styles.groupDescription}>Mavzular va uyga vazifalar o‘zbek talabalari uchun</span>
+              </button>
+            </div>
+
+            <div className={styles.heroActions}>
+              <a href="#schedule" className={styles.heroButton}>
+                {language === "ru" ? "К расписанию" : "Jadvalni ko'rish"}
+              </a>
+              <a href="#lesson-detail" className={styles.heroGhostButton}>
+                {language === "ru" ? "Материалы урока" : "Dars materiallari"}
+              </a>
+            </div>
+
+            <div className={styles.groupIndicator}>
+              <span>{language === "ru" ? "Выбранная группа:" : "Tanlangan guruh:"}</span>
+              <strong>{language === "ru" ? "Русский поток" : "O'zbek guruh"}</strong>
+            </div>
+
+            <div className={styles.heroSubLinks}>
+              <a href="#schedule">{language === "ru" ? "Ближайшие занятия" : "Yaquin darslar"}</a>
+              <a href="#lesson-detail">{language === "ru" ? "Темы и примеры" : "Mavzular va misollar"}</a>
+              <a href="#homework">{language === "ru" ? "Домашние задания" : "Uyga vazifa"}</a>
+            </div>
+
+            <div className={styles.heroStats} ref={statsRef}>
+              {stats.map((stat) => (
+                <div key={stat.label} className={styles.heroStat} data-stat>
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.heroVisual} aria-hidden="true">
+            <div className={styles.heroPreview}>
+              <div className={styles.heroPreviewHeader}>
+                <span className={`${styles.heroDot} ${styles.heroDotRed}`} />
+                <span className={`${styles.heroDot} ${styles.heroDotAmber}`} />
+                <span className={`${styles.heroDot} ${styles.heroDotGreen}`} />
+              </div>
+              <code className={styles.heroCode}>{heroHtmlSample}</code>
+            </div>
+            <div className={styles.heroSnippetCard}>
+              <span>{language === "ru" ? "CSS отрывок" : "CSS parcha"}</span>
+              <code>{heroCssSample}</code>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className={styles.content}>
+        <section className={styles.schedule} id="schedule">
+          <header className={styles.scheduleHeader}>
+            <h2>{language === "ru" ? "Расписание занятий" : "Darslar jadvali"}</h2>
+            <p>
+              {language === "ru"
+                ? "Выберите урок, чтобы открыть темы, анимационные тренажёры и домашние задания."
+                : "Mavzular, animatsion treninglar va uyga vazifalarni ko‘rish uchun darsni tanlang."}
+            </p>
+          </header>
+
+          {scheduleGroups.length === 0 ? (
+            <div className={styles.scheduleEmpty}>
+              <h3>{language === "ru" ? "Материалы в разработке" : "Materiallar tayyorlanmoqda"}</h3>
+              <p>
+                {language === "ru"
+                  ? "Для этой группы расписание появится совсем скоро. Следите за обновлениями."
+                  : "Bu guruh uchun jadval tez orada paydo bo‘ladi. Yangilanishlarni kuzatib boring."}
+              </p>
+            </div>
+          ) : (
+            <div className={styles.scheduleTimeline}>
+              {scheduleGroups.map((group) => (
+                <div key={group.title} className={styles.scheduleSection}>
+                  <div className={styles.scheduleSectionHeader}>
+                    <h3 className={styles.scheduleSectionTitle}>{group.title}</h3>
+                    <span className={styles.scheduleSectionSubtitle}>
+                      {language === "ru"
+                        ? `${group.lessons.length} урок`
+                        : `${group.lessons.length} dars`}
+                    </span>
+                  </div>
+
+                  <div className={styles.lessonList}>
+                    {group.lessons.map((lesson) => {
+                      const isSelected = lesson.slug === selectedLessonSlug
+                      const isToday = lesson.date === todayISO
+                      const formattedDate = new Intl.DateTimeFormat(language === "ru" ? "ru-RU" : "uz-UZ", {
+                        day: "numeric",
+                        month: "long",
+                      })
+                        .format(new Date(lesson.date))
+                        .replace(/^\p{Ll}/u, (char) => char.toUpperCase())
+
+                      return (
+                        <button
+                          key={lesson.slug}
+                          type="button"
+                          onClick={() => setSelectedLessonSlug(lesson.slug)}
+                          className={clsx(styles.lessonCard, isSelected && styles.lessonCardSelected)}
+                        >
+                          <div className={styles.lessonMain}>
+                            <div className={styles.lessonMetaRow}>
+                              <span className={styles.lessonDate}>{formattedDate}</span>
+                              {isToday && (
+                                <span className={styles.lessonPill}>
+                                  {language === "ru" ? "Сегодня" : "Bugun"}
+                                </span>
+                              )}
+                            </div>
+                            <h4 className={styles.lessonName}>{lesson.title}</h4>
+                            <p className={styles.lessonSummary}>{lesson.summary}</p>
+                            {lesson.tags && (
+                              <div className={styles.lessonTags}>
+                                {lesson.tags.map((tag) => (
+                                  <span key={tag} className={styles.lessonTag}>
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          <div className={styles.lessonStatus}>
+                            {language === "ru"
+                              ? isSelected
+                                ? "Открыто"
+                                : "Открыть"
+                              : isSelected
+                                ? "Faol"
+                                : "Ochish"}
+                          </div>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className={styles.lessonDetail} id="lesson-detail">
+          {hasLessonDetail && selectedLessonMeta ? (
+            <>
+              <header className={styles.lessonDetailHeader}>
+                <div>
+                  <span className={styles.lessonDetailLabel}>
+                    {language === "ru" ? "Текущее занятие" : "Joriy dars"}
+                  </span>
+                  <h2 className={styles.lessonDetailTitle}>{selectedLessonMeta.title}</h2>
+                  <p className={styles.lessonDetailSummary}>{selectedLessonMeta.summary}</p>
+                </div>
+                <div className={styles.lessonDetailMeta}>
+                  {selectedLessonDateLabel && (
+                    <span className={styles.lessonDetailDate}>{selectedLessonDateLabel}</span>
+                  )}
+                  {selectedLessonIsToday && (
+                    <span className={styles.lessonPill}>
+                      {language === "ru" ? "Сегодня" : "Bugun"}
+                    </span>
+                  )}
+                </div>
+              </header>
+
+              <div className={styles.lessonDetailBody}>
+                <div className={styles.topics} id="topics">
           {currentContent.topics.map((topic, index) => (
-            <TopicSection key={topic.id} topic={topic} index={index} />
+                    <TopicSection key={topic.id} topic={topic} index={index} game={gamesForLanguage[topic.id]} />
           ))}
         </div>
 
+                <section id="games" className={styles.lessonExtras}>
+                  <GameSection language={language} />
+                </section>
+
         <CombinedExample language={language} />
+                <div id="homework">
         <HomeworkSection homework={currentHomework} />
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className={styles.lessonComingSoon}>
+              <h3>{language === "ru" ? "Материалы появятся позже" : "Materiallar tez orada"}</h3>
+              <p>
+                {language === "ru"
+                  ? "Как только первые занятия этой группы будут доступны, здесь появятся темы, тренажёры и домашние задания."
+                  : "Bu guruh uchun darslar tayyor bo‘lgach, bu yerda mavzular, treninglar va uyga vazifalar paydo bo‘ladi."}
+              </p>
+            </div>
+          )}
+        </section>
       </div>
     </main>
   )
 }
+

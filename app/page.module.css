@@ -1,0 +1,624 @@
+@import "../styles/tokens.css";
+
+.main {
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #f5f3ff 0%, #f7f9ff 55%, #ffffff 100%);
+  padding-bottom: 120px;
+}
+
+.hero {
+  padding: 96px 0 82px;
+}
+
+.heroInner {
+  width: min(100% - 48px, 1180px);
+  margin: 0 auto;
+  display: grid;
+  gap: 56px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: center;
+}
+
+.heroContent {
+  display: grid;
+  gap: 24px;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(124, 58, 237, 0.1);
+  color: #5b21b6;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.heroContent h1 {
+  margin: 0;
+  font-size: clamp(2.6rem, 3.2vw + 1rem, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #111827;
+}
+
+.heroContent p {
+  margin: 0;
+  max-width: 520px;
+  font-size: 1.1rem;
+  line-height: 1.68;
+  color: rgba(55, 65, 81, 0.85);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.heroButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fdfcff;
+  border: none;
+  box-shadow: 0 24px 36px -22px rgba(79, 70, 229, 0.7);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.heroButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 28px 44px -24px rgba(79, 70, 229, 0.75);
+}
+
+.heroGhostButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.55);
+  color: #4f46e5;
+  border: 1px solid rgba(79, 70, 229, 0.25);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.heroGhostButton:hover {
+  background: rgba(79, 70, 229, 0.1);
+  color: #4338ca;
+  border-color: rgba(79, 70, 229, 0.35);
+}
+
+.heroSubLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.9rem;
+  color: rgba(79, 70, 229, 0.8);
+}
+
+.heroSubLinks a {
+  color: rgba(79, 70, 229, 0.85);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.heroSubLinks a:hover {
+  text-decoration: underline;
+}
+
+.groupSwitch {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.groupButton {
+  display: grid;
+  gap: 6px;
+  align-items: flex-start;
+  justify-items: flex-start;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: rgba(255, 255, 255, 0.75);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.groupButton:hover {
+  transform: translateY(-2px);
+  border-color: rgba(79, 70, 229, 0.45);
+  box-shadow: 0 20px 38px -30px rgba(79, 70, 229, 0.35);
+}
+
+.groupButtonActive {
+  border-color: rgba(79, 70, 229, 0.7);
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(124, 58, 237, 0.14));
+  box-shadow: 0 24px 46px -32px rgba(79, 70, 229, 0.45);
+}
+
+.groupLabel {
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 1rem;
+}
+
+.groupDescription {
+  font-size: 0.9rem;
+  color: rgba(55, 65, 81, 0.78);
+}
+
+.groupIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(30, 64, 175, 0.08);
+  border: 1px solid rgba(30, 64, 175, 0.18);
+  font-size: 0.92rem;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.groupIndicator strong {
+  color: #1e3a8a;
+}
+
+.heroStats {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.heroStat {
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 18px 32px -26px rgba(79, 70, 229, 0.45);
+  display: grid;
+  gap: 6px;
+}
+
+.heroStat strong {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+.heroStat span {
+  font-size: 0.95rem;
+  color: rgba(55, 65, 81, 0.8);
+}
+
+.heroVisual {
+  position: relative;
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(79, 70, 229, 0.08), rgba(236, 233, 255, 0.9));
+  border: 1px solid rgba(124, 58, 237, 0.16);
+  padding: 40px;
+  overflow: hidden;
+}
+
+.heroVisual::before {
+  content: "";
+  position: absolute;
+  inset: 18% -20% 30% 10%;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.28), transparent 65%);
+  filter: blur(18px);
+  opacity: 0.8;
+}
+
+.heroPreview {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  background: rgba(15, 23, 42, 0.92);
+  color: #f8fafc;
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 22px 38px -28px rgba(15, 23, 42, 0.75);
+}
+
+.heroPreviewHeader {
+  display: flex;
+  gap: 8px;
+}
+
+.heroDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.heroDotRed {
+  background: #f87171;
+}
+
+.heroDotAmber {
+  background: #fbbf24;
+}
+
+.heroDotGreen {
+  background: #34d399;
+}
+
+.heroCode {
+  font-family: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  opacity: 0.92;
+  white-space: pre-wrap;
+}
+
+.heroSnippetCard {
+  margin-top: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  padding: 20px 22px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 18px 36px -28px rgba(79, 70, 229, 0.45);
+  display: grid;
+  gap: 10px;
+}
+
+.heroSnippetCard span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(79, 70, 229, 0.75);
+}
+
+.heroSnippetCard code {
+  font-family: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #4338ca;
+  white-space: pre-wrap;
+}
+
+.content {
+  width: min(100% - 48px, 1180px);
+  margin: 0 auto;
+  display: grid;
+  gap: 56px;
+}
+
+.topics {
+  display: grid;
+  gap: 28px;
+}
+
+.schedule {
+  display: grid;
+  gap: 24px;
+}
+
+.scheduleHeader {
+  display: grid;
+  gap: 8px;
+}
+
+.scheduleHeader h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.scheduleHeader p {
+  margin: 0;
+  font-size: 1rem;
+  color: rgba(55, 65, 81, 0.8);
+  max-width: 620px;
+}
+
+.scheduleTimeline {
+  display: grid;
+  gap: 24px;
+}
+
+.scheduleSection {
+  border-radius: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 26px 28px;
+  display: grid;
+  gap: 20px;
+  box-shadow: 0 26px 48px -32px rgba(30, 64, 175, 0.35);
+}
+
+.scheduleSectionHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.scheduleSectionTitle {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-transform: capitalize;
+}
+
+.scheduleSectionSubtitle {
+  font-size: 0.95rem;
+  color: rgba(55, 65, 81, 0.72);
+  font-weight: 600;
+}
+
+.lessonList {
+  display: grid;
+  gap: 14px;
+}
+
+.lessonCard {
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  background: rgba(249, 250, 251, 0.9);
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  cursor: pointer;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  text-align: left;
+}
+
+.lessonCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(79, 70, 229, 0.4);
+  box-shadow: 0 20px 38px -30px rgba(79, 70, 229, 0.45);
+}
+
+.lessonCardSelected {
+  border-color: rgba(79, 70, 229, 0.65);
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(124, 58, 237, 0.12));
+  box-shadow: 0 24px 44px -30px rgba(79, 70, 229, 0.55);
+}
+
+.lessonMain {
+  display: grid;
+  gap: 8px;
+}
+
+.lessonMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: rgba(30, 41, 59, 0.7);
+}
+
+.lessonDate {
+  font-weight: 600;
+  color: #1f2937;
+  text-transform: capitalize;
+}
+
+.lessonPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.18);
+  color: #047857;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.lessonName {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.lessonSummary {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(55, 65, 81, 0.78);
+}
+
+.lessonTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lessonTag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(79, 70, 229, 0.12);
+  color: #4338ca;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.lessonStatus {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: rgba(30, 41, 59, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.scheduleEmpty {
+  border-radius: 24px;
+  border: 1px dashed rgba(148, 163, 184, 0.42);
+  background: rgba(255, 255, 255, 0.8);
+  padding: 40px 36px;
+  text-align: center;
+  display: grid;
+  gap: 12px;
+}
+
+.scheduleEmpty h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.scheduleEmpty p {
+  margin: 0;
+  font-size: 1rem;
+  color: rgba(55, 65, 81, 0.75);
+}
+
+.lessonDetail {
+  display: grid;
+  gap: 28px;
+}
+
+.lessonDetailHeader {
+  border-radius: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 28px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 28px 52px -34px rgba(30, 64, 175, 0.35);
+}
+
+.lessonDetailLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(79, 70, 229, 0.12);
+  color: #4338ca;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lessonDetailTitle {
+  margin: 12px 0 8px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.lessonDetailSummary {
+  margin: 0;
+  max-width: 620px;
+  font-size: 1rem;
+  color: rgba(55, 65, 81, 0.8);
+}
+
+.lessonDetailMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: rgba(30, 41, 59, 0.75);
+  font-weight: 600;
+}
+
+.lessonDetailDate {
+  text-transform: capitalize;
+}
+
+.lessonDetailBody {
+  display: grid;
+  gap: 36px;
+}
+
+.lessonExtras {
+  display: grid;
+  gap: 24px;
+}
+
+.lessonComingSoon {
+  border-radius: 24px;
+  border: 1px dashed rgba(148, 163, 184, 0.38);
+  background: rgba(255, 255, 255, 0.88);
+  padding: 36px 32px;
+  display: grid;
+  gap: 10px;
+  text-align: center;
+  color: rgba(30, 41, 59, 0.78);
+}
+
+.lessonComingSoon h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 72px 0 64px;
+  }
+
+  .heroInner,
+  .content {
+    width: min(100% - 32px, 1180px);
+  }
+
+  .heroVisual {
+    padding: 28px;
+  }
+
+  .heroSubLinks {
+    font-size: 0.88rem;
+  }
+
+  .groupSwitch {
+    grid-template-columns: 1fr;
+  }
+
+  .scheduleSection {
+    padding: 20px 22px;
+  }
+
+  .lessonCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lessonStatus {
+    justify-content: flex-start;
+  }
+
+  .lessonDetailHeader {
+    padding: 24px;
+  }
+}
+
