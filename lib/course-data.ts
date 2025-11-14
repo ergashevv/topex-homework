@@ -263,6 +263,69 @@ p {
   color: #ffffff;
   font-weight: 600;
 }`,
+  transformDemo: `.card {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: bold;
+  transform: rotate(15deg) scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: rotate(0deg) scale(1.2);
+}`,
+  overflowDemo: `.container {
+  width: 300px;
+  height: 150px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 16px;
+  overflow: auto;
+  border: 2px solid #cbd5e1;
+}
+
+.content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 6px;
+  line-height: 1.8;
+}`,
+  transitionDemo: `.button {
+  background: #3b82f6;
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}`,
+  animationDemo: `.spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}`,
 } as const
 
 export const lessons: LessonMeta[] = [
@@ -384,6 +447,58 @@ export const courseContent = {
   <div class="item">Элемент 3</div>
 </div>`,
         cssCode: cssSnippets.spacingDemo,
+      },
+      {
+        id: "transform",
+        title: "CSS: Transform - Преобразования",
+        explanation:
+          "Transform позволяет перемещать, поворачивать, масштабировать и наклонять элементы. Не влияет на поток документа.",
+        correct: `.card { transform: rotate(15deg) scale(1.1); }`,
+        incorrect: `.card { rotate: 15deg; scale: 1.1; }`,
+        bestPractice: "Используйте transform для анимаций вместо изменения позиции — это производительнее.",
+        preview: "css" as const,
+        htmlCode: `<div class="card">Карточка</div>`,
+        cssCode: cssSnippets.transformDemo,
+      },
+      {
+        id: "overflow",
+        title: "CSS: Overflow - Переполнение",
+        explanation:
+          "Overflow определяет, что происходит с содержимым, которое выходит за границы элемента: visible, hidden, scroll, auto.",
+        correct: `.container { overflow: auto; height: 200px; }`,
+        incorrect: `.container { overflow: visible; height: 200px; }`,
+        bestPractice: "Используйте overflow: auto для прокрутки только при необходимости, hidden — для скрытия.",
+        preview: "css" as const,
+        htmlCode: `<div class="container">
+  <div class="content">
+    Длинный текст, который может выходить за границы контейнера и требует прокрутки для просмотра всего содержимого.
+  </div>
+</div>`,
+        cssCode: cssSnippets.overflowDemo,
+      },
+      {
+        id: "transition",
+        title: "CSS: Transition - Плавные переходы",
+        explanation:
+          "Transition создаёт плавную анимацию изменения свойств. Указывайте свойство, длительность и функцию времени.",
+        correct: `.button { transition: all 0.3s ease; }`,
+        incorrect: `.button { transition: 0.3s; }`,
+        bestPractice: "Используйте transition для интерактивных элементов. Указывайте конкретные свойства вместо 'all' для производительности.",
+        preview: "css" as const,
+        htmlCode: `<button class="button">Навести курсор</button>`,
+        cssCode: cssSnippets.transitionDemo,
+      },
+      {
+        id: "animation",
+        title: "CSS: Animation - Анимации",
+        explanation:
+          "Animation позволяет создавать сложные анимации с помощью @keyframes. Можно задать длительность, задержку, повторение.",
+        correct: `.spinner { animation: spin 1s linear infinite; }`,
+        incorrect: `.spinner { animation: spin; }`,
+        bestPractice: "Используйте animation для повторяющихся эффектов. Определяйте @keyframes с понятными именами.",
+        preview: "css" as const,
+        htmlCode: `<div class="spinner"></div>`,
+        cssCode: cssSnippets.animationDemo,
       },
     ],
   },
@@ -646,6 +761,74 @@ export const courseContent = {
 </div>`,
         cssCode: cssSnippets.flexLayout,
       },
+      {
+        id: "zindex",
+        title: "CSS: Z-index - Qatlamlar tartibi",
+        explanation:
+          "Z-index elementlarning ko‘rinish tartibini boshqaradi. Faqat position bilan ishlaydi (relative, absolute, fixed).",
+        correct: `.modal { position: fixed; z-index: 1000; background: white; }`,
+        incorrect: `.modal { z-index: 1000; }`,
+        bestPractice: "Z-index qiymatlarini mantiqiy tizimda ishlating (masalan, 100, 200, 300).",
+        preview: "css" as const,
+        htmlCode: `<div class="container">
+  <div class="item item1">Qatlam 1</div>
+  <div class="item item2">Qatlam 2</div>
+  <div class="item item3">Qatlam 3</div>
+</div>`,
+        cssCode: cssSnippets.zIndexDemo,
+      },
+      {
+        id: "transform",
+        title: "CSS: Transform - O'zgartirishlar",
+        explanation:
+          "Transform elementlarni ko'chirish, aylantirish, kattalashtirish va egish imkonini beradi. Hujjat oqimiga ta'sir qilmaydi.",
+        correct: `.card { transform: rotate(15deg) scale(1.1); }`,
+        incorrect: `.card { rotate: 15deg; scale: 1.1; }`,
+        bestPractice: "Animatsiyalar uchun transform dan foydalaning, pozitsiyani o'zgartirish o'rniga — bu tezroq.",
+        preview: "css" as const,
+        htmlCode: `<div class="card">Kartochka</div>`,
+        cssCode: cssSnippets.transformDemo,
+      },
+      {
+        id: "overflow",
+        title: "CSS: Overflow - Oqib chiqish",
+        explanation:
+          "Overflow element chegarasidan tashqariga chiqib ketgan kontentga nima bo'lishini belgilaydi: visible, hidden, scroll, auto.",
+        correct: `.container { overflow: auto; height: 200px; }`,
+        incorrect: `.container { overflow: visible; height: 200px; }`,
+        bestPractice: "Kerak bo'lganda scroll uchun overflow: auto, yashirish uchun hidden ishlating.",
+        preview: "css" as const,
+        htmlCode: `<div class="container">
+  <div class="content">
+    Uzoq matn, konteyner chegarasidan tashqariga chiqishi mumkin va barcha kontentni ko'rish uchun scroll kerak bo'ladi.
+  </div>
+</div>`,
+        cssCode: cssSnippets.overflowDemo,
+      },
+      {
+        id: "transition",
+        title: "CSS: Transition - Silliq o'tishlar",
+        explanation:
+          "Transition xossalarning o'zgarishini silliq animatsiya qiladi. Xossa, davomiylik va vaqt funksiyasini ko'rsating.",
+        correct: `.button { transition: all 0.3s ease; }`,
+        incorrect: `.button { transition: 0.3s; }`,
+        bestPractice: "Interaktiv elementlar uchun transition ishlating. Samaradorlik uchun 'all' o'rniga aniq xossalarni ko'rsating.",
+        preview: "css" as const,
+        htmlCode: `<button class="button">Kursorni olib boring</button>`,
+        cssCode: cssSnippets.transitionDemo,
+      },
+      {
+        id: "animation",
+        title: "CSS: Animation - Animatsiyalar",
+        explanation:
+          "Animation @keyframes yordamida murakkab animatsiyalar yaratishga imkon beradi. Davomiylik, kechikish va takrorlanishni belgilashingiz mumkin.",
+        correct: `.spinner { animation: spin 1s linear infinite; }`,
+        incorrect: `.spinner { animation: spin; }`,
+        bestPractice: "Takrorlanuvchi effektlar uchun animation ishlating. @keyframes ni tushunarli nomlar bilan belgilang.",
+        preview: "css" as const,
+        htmlCode: `<div class="spinner"></div>`,
+        cssCode: cssSnippets.animationDemo,
+      },
     ],
   },
 }
@@ -670,6 +853,26 @@ export const courseHomework = {
         description:
           'Создайте карточку товара с изображением, названием, ценой и ссылкой "Купить". Используйте padding, margin и display для оформления.',
       },
+      {
+        title: "Задача 4: Анимированная кнопка с transform",
+        description:
+          "Создайте кнопку, которая при наведении поворачивается на 5 градусов и увеличивается в масштабе. Используйте transform и transition для плавной анимации.",
+      },
+      {
+        title: "Задача 5: Контейнер с прокруткой",
+        description:
+          "Создайте контейнер фиксированной высоты с длинным текстом внутри. Используйте overflow: auto для добавления прокрутки только при необходимости.",
+      },
+      {
+        title: "Задача 6: Плавные переходы",
+        description:
+          "Создайте карточку с hover-эффектом: при наведении цвет фона и размер должны плавно изменяться. Используйте transition для всех свойств.",
+      },
+      {
+        title: "Задача 7: Вращающийся индикатор загрузки",
+        description:
+          "Создайте анимированный спиннер загрузки, который бесконечно вращается. Используйте @keyframes и animation для создания эффекта вращения.",
+      },
     ],
   },
   uz: {
@@ -684,12 +887,32 @@ export const courseHomework = {
       {
         title: "Vazifa 2: Haftalik jadval",
         description:
-          "HTML jadval yordamida haftalik o‘quv jadvalini tuzing. Thead/tbody ishlating va jadvalni CSS bilan bezang.",
+          "HTML jadval yordamida haftalik o'quv jadvalini tuzing. Thead/tbody ishlating va jadvalni CSS bilan bezang.",
       },
       {
         title: "Vazifa 3: Stil mashqi",
         description:
           "Bir sahifada quyidagi xossalardan foydalaning: background-color, color, width/height, margin/padding va display.",
+      },
+      {
+        title: "Vazifa 4: Transform bilan animatsiyalangan tugma",
+        description:
+          "Kursor olib borilganda 5 daraja aylanadigan va kattalashadigan tugma yarating. Silliq animatsiya uchun transform va transition ishlating.",
+      },
+      {
+        title: "Vazifa 5: Scroll bilan konteyner",
+        description:
+          "Belgilangan balandlikdagi konteyner yarating va ichiga uzoq matn qo'shing. Kerak bo'lganda scroll uchun overflow: auto ishlating.",
+      },
+      {
+        title: "Vazifa 6: Silliq o'tishlar",
+        description:
+          "Hover-effektli kartochka yarating: kursorni olib borilganda fon rangi va o'lcham silliq o'zgarsin. Barcha xossalarni transition bilan boshqaring.",
+      },
+      {
+        title: "Vazifa 7: Aylanuvchi yuklanish ko'rsatkichi",
+        description:
+          "Cheksiz aylanadigan yuklanish spinner yarating. Aylanish effekti uchun @keyframes va animation ishlating.",
       },
     ],
   },
@@ -961,6 +1184,178 @@ export const topicGamesData: Record<SupportedLanguage, Record<string, TopicGameC
           "spacing-correct": { padding: 20, margin: 10 },
           "spacing-wrong": { padding: 10, margin: 20 },
           "spacing-double": { padding: 10, margin: 0 },
+        },
+      },
+    },
+    transform: {
+      title: "Мини-игра: Поворот и масштаб",
+      prompt: "Выберите правильный синтаксис transform для поворота на 15 градусов и увеличения в 1.1 раза.",
+      status: {
+        idle: "Выберите правильный вариант transform.",
+        correct: "Отлично! Transform объединяет несколько преобразований в одном свойстве.",
+        incorrect: "Неверно. Transform — это одно свойство, которое принимает функции преобразования.",
+      },
+      options: [
+        {
+          id: "transform-correct",
+          label: `.card {
+  transform: rotate(15deg) scale(1.1);
+}`,
+          isCorrect: true,
+          feedback: "Transform объединяет rotate и scale в одном свойстве — это правильный синтаксис.",
+        },
+        {
+          id: "transform-separate",
+          label: `.card {
+  rotate: 15deg;
+  scale: 1.1;
+}`,
+          feedback: "Отдельные свойства rotate и scale не существуют — используйте transform.",
+        },
+        {
+          id: "transform-wrong",
+          label: `.card {
+  transform: rotate 15deg scale 1.1;
+}`,
+          feedback: "В transform функции должны быть в скобках: rotate(15deg), а не rotate 15deg.",
+        },
+      ],
+      visual: {
+        type: "box",
+        initialOptionId: "transform-correct",
+        variants: {
+          "transform-correct": { width: 120, height: 120, background: "linear-gradient(135deg, #6366f1, #8b5cf6)", borderRadius: 12, label: "Повёрнуто" },
+          "transform-separate": { width: 120, height: 120, background: "#fee2e2", borderRadius: 12, label: "Не работает" },
+          "transform-wrong": { width: 120, height: 120, background: "#fef3c7", borderRadius: 12, label: "Ошибка" },
+        },
+      },
+    },
+    overflow: {
+      title: "Мини-игра: Управление переполнением",
+      prompt: "Какой overflow создаст прокрутку только при необходимости для контейнера с фиксированной высотой?",
+      status: {
+        idle: "Выберите правильное значение overflow.",
+        correct: "Верно! overflow: auto добавляет прокрутку только когда контент выходит за границы.",
+        incorrect: "Подумайте: какое значение создаёт прокрутку только при необходимости?",
+      },
+      options: [
+        {
+          id: "overflow-auto",
+          label: `.container {
+  overflow: auto;
+  height: 200px;
+}`,
+          isCorrect: true,
+          feedback: "overflow: auto добавляет прокрутку только когда контент переполняет контейнер.",
+        },
+        {
+          id: "overflow-scroll",
+          label: `.container {
+  overflow: scroll;
+  height: 200px;
+}`,
+          feedback: "overflow: scroll всегда показывает полосы прокрутки, даже если контент помещается.",
+        },
+        {
+          id: "overflow-visible",
+          label: `.container {
+  overflow: visible;
+  height: 200px;
+}`,
+          feedback: "overflow: visible позволяет контенту выходить за границы без прокрутки.",
+        },
+      ],
+      visual: {
+        type: "box",
+        initialOptionId: "overflow-auto",
+        variants: {
+          "overflow-auto": { width: 300, height: 150, background: "#f1f5f9", label: "Auto scroll" },
+          "overflow-scroll": { width: 300, height: 150, background: "#e0e7ff", label: "Always scroll" },
+          "overflow-visible": { width: 300, height: 150, background: "#fef3c7", label: "Visible" },
+        },
+      },
+    },
+    transition: {
+      title: "Мини-игра: Плавный переход",
+      prompt: "Выберите правильный синтаксис transition для плавного изменения всех свойств за 0.3 секунды.",
+      status: {
+        idle: "Выберите правильный вариант transition.",
+        correct: "Точно! Transition требует свойство, длительность и функцию времени.",
+        incorrect: "Проверьте синтаксис: transition нужны свойство, длительность и функция времени.",
+      },
+      options: [
+        {
+          id: "transition-correct",
+          label: `.button {
+  transition: all 0.3s ease;
+}`,
+          isCorrect: true,
+          feedback: "transition: all 0.3s ease — правильный синтаксис с свойством, длительностью и функцией.",
+        },
+        {
+          id: "transition-short",
+          label: `.button {
+  transition: 0.3s;
+}`,
+          feedback: "Не хватает свойства: transition должен знать, какое свойство анимировать.",
+        },
+        {
+          id: "transition-wrong",
+          label: `.button {
+  transition: all ease 0.3s;
+}`,
+          feedback: "Порядок важен: свойство, длительность, функция времени. Правильно: all 0.3s ease.",
+        },
+      ],
+      visual: {
+        type: "box",
+        initialOptionId: "transition-correct",
+        variants: {
+          "transition-correct": { width: 180, height: 50, background: "#3b82f6", color: "#ffffff", borderRadius: 8, label: "Плавно" },
+          "transition-short": { width: 180, height: 50, background: "#fee2e2", borderRadius: 8, label: "Не работает" },
+          "transition-wrong": { width: 180, height: 50, background: "#fef3c7", borderRadius: 8, label: "Ошибка" },
+        },
+      },
+    },
+    animation: {
+      title: "Мини-игра: Вращающийся спиннер",
+      prompt: "Выберите правильный синтаксис animation для бесконечного вращения с длительностью 1 секунда.",
+      status: {
+        idle: "Выберите правильный вариант animation.",
+        correct: "Отлично! Animation требует имя, длительность, функцию времени и количество повторений.",
+        incorrect: "Animation нужны: имя анимации, длительность, функция времени и количество повторений.",
+      },
+      options: [
+        {
+          id: "animation-correct",
+          label: `.spinner {
+  animation: spin 1s linear infinite;
+}`,
+          isCorrect: true,
+          feedback: "animation: spin 1s linear infinite — правильный синтаксис с именем, длительностью, функцией и повторением.",
+        },
+        {
+          id: "animation-short",
+          label: `.spinner {
+  animation: spin;
+}`,
+          feedback: "Не хватает длительности и других параметров — анимация не будет работать правильно.",
+        },
+        {
+          id: "animation-wrong",
+          label: `.spinner {
+  animation: spin infinite 1s;
+}`,
+          feedback: "Порядок важен: имя, длительность, функция времени, повторение. Правильно: spin 1s linear infinite.",
+        },
+      ],
+      visual: {
+        type: "box",
+        initialOptionId: "animation-correct",
+        variants: {
+          "animation-correct": { width: 60, height: 60, background: "conic-gradient(from 0deg, #3b82f6 0deg 90deg, #e5e7eb 90deg)", borderRadius: 30, label: "Вращается" },
+          "animation-short": { width: 60, height: 60, background: "#fee2e2", borderRadius: 30, label: "Не работает" },
+          "animation-wrong": { width: 60, height: 60, background: "#fef3c7", borderRadius: 30, label: "Ошибка" },
         },
       },
     },
@@ -1521,6 +1916,220 @@ export const topicGamesData: Record<SupportedLanguage, Record<string, TopicGameC
           "display-flex": { justifyContent: "center", gap: 12 },
           "display-block": { justifyContent: "flex-start", gap: 0 },
           "display-none": { justifyContent: "flex-start", gap: 0 },
+        },
+      },
+    },
+    zindex: {
+      title: "Mini o'yin: Qatlamlar minorasi",
+      prompt: "Z-index ni shunday o'rnatingki, yashil blok yuqorida, sariq o'rtada, qizil pastda bo'lsin.",
+      status: {
+        idle: "Z-index bloklarini tanlang.",
+        correct: "Barakalla! Qiymat katta bo'lsa, element yuqorida turadi.",
+        incorrect: "Noto'g'ri. Vizual qatlamlar tartibini o'ylab ko'ring.",
+      },
+      options: [
+        {
+          id: "z-correct",
+          label: `.item1 { z-index: 1; }
+.item2 { z-index: 2; }
+.item3 { z-index: 3; }`,
+          isCorrect: true,
+          feedback: "Z-index katta bo'lsa, qatlam yuqorida: yashil blok qolganlaridan yuqorida turadi.",
+        },
+        {
+          id: "z-reverse",
+          label: `.item1 { z-index: 3; }
+.item2 { z-index: 2; }
+.item3 { z-index: 1; }`,
+          feedback: "Qizil blok eng katta z-index ni oladi va qolgan elementlarni qoplaydi.",
+        },
+        {
+          id: "z-same",
+          label: `.item1 { z-index: 10; }
+.item2 { z-index: 10; }
+.item3 { z-index: 10; }`,
+          feedback: "Bir xil z-index tartibni belgilamaydi: brauzer DOM ketma-ketligini oladi.",
+        },
+      ],
+      visual: {
+        type: "zindex",
+        initialOptionId: "z-correct",
+        variants: {
+          "z-correct": { order: [2, 1, 0], highlight: 2 },
+          "z-reverse": { order: [0, 1, 2], highlight: 0 },
+          "z-same": { order: [1, 1, 1], highlight: 1 },
+        },
+      },
+    },
+    transform: {
+      title: "Mini o'yin: Aylantirish va kattalashtirish",
+      prompt: "15 daraja aylantirish va 1.1 marta kattalashtirish uchun to'g'ri transform sintaksisini tanlang.",
+      status: {
+        idle: "To'g'ri transform variantini tanlang.",
+        correct: "Ajoyib! Transform bir nechta o'zgartirishlarni bitta xossada birlashtiradi.",
+        incorrect: "Noto'g'ri. Transform — bu o'zgartirish funksiyalarini qabul qiladigan bitta xossa.",
+      },
+      options: [
+        {
+          id: "transform-correct",
+          label: `.card {
+  transform: rotate(15deg) scale(1.1);
+}`,
+          isCorrect: true,
+          feedback: "Transform rotate va scale ni bitta xossada birlashtiradi — bu to'g'ri sintaksis.",
+        },
+        {
+          id: "transform-separate",
+          label: `.card {
+  rotate: 15deg;
+  scale: 1.1;
+}`,
+          feedback: "Alohida rotate va scale xossalari mavjud emas — transform ishlating.",
+        },
+        {
+          id: "transform-wrong",
+          label: `.card {
+  transform: rotate 15deg scale 1.1;
+}`,
+          feedback: "Transform da funksiyalar qavs ichida bo'lishi kerak: rotate(15deg), rotate 15deg emas.",
+        },
+      ],
+      visual: {
+        type: "box",
+        initialOptionId: "transform-correct",
+        variants: {
+          "transform-correct": { width: 120, height: 120, background: "linear-gradient(135deg, #6366f1, #8b5cf6)", borderRadius: 12, label: "Aylantirilgan" },
+          "transform-separate": { width: 120, height: 120, background: "#fee2e2", borderRadius: 12, label: "Ishlamaydi" },
+          "transform-wrong": { width: 120, height: 120, background: "#fef3c7", borderRadius: 12, label: "Xato" },
+        },
+      },
+    },
+    overflow: {
+      title: "Mini o'yin: Oqib chiqishni boshqarish",
+      prompt: "Belgilangan balandlikdagi konteyner uchun kerak bo'lganda scroll yaratadigan overflow qaysi?",
+      status: {
+        idle: "To'g'ri overflow qiymatini tanlang.",
+        correct: "To'g'ri! overflow: auto kontent chegaradan chiqganda scroll qo'shadi.",
+        incorrect: "O'ylab ko'ring: qaysi qiymat kerak bo'lganda scroll yaratadi?",
+      },
+      options: [
+        {
+          id: "overflow-auto",
+          label: `.container {
+  overflow: auto;
+  height: 200px;
+}`,
+          isCorrect: true,
+          feedback: "overflow: auto kontent konteynerni to'ldirganda scroll qo'shadi.",
+        },
+        {
+          id: "overflow-scroll",
+          label: `.container {
+  overflow: scroll;
+  height: 200px;
+}`,
+          feedback: "overflow: scroll har doim scroll chiziqlarini ko'rsatadi, hatto kontent sig'sa ham.",
+        },
+        {
+          id: "overflow-visible",
+          label: `.container {
+  overflow: visible;
+  height: 200px;
+}`,
+          feedback: "overflow: visible kontentga chegaradan chiqishga ruxsat beradi, scroll yo'q.",
+        },
+      ],
+      visual: {
+        type: "box",
+        initialOptionId: "overflow-auto",
+        variants: {
+          "overflow-auto": { width: 300, height: 150, background: "#f1f5f9", label: "Auto scroll" },
+          "overflow-scroll": { width: 300, height: 150, background: "#e0e7ff", label: "Har doim scroll" },
+          "overflow-visible": { width: 300, height: 150, background: "#fef3c7", label: "Visible" },
+        },
+      },
+    },
+    transition: {
+      title: "Mini o'yin: Silliq o'tish",
+      prompt: "Barcha xossalarni 0.3 soniyada silliq o'zgartirish uchun to'g'ri transition sintaksisini tanlang.",
+      status: {
+        idle: "To'g'ri transition variantini tanlang.",
+        correct: "To'g'ri! Transition xossa, davomiylik va vaqt funksiyasini talab qiladi.",
+        incorrect: "Sintaksisni tekshiring: transition xossa, davomiylik va vaqt funksiyasini talab qiladi.",
+      },
+      options: [
+        {
+          id: "transition-correct",
+          label: `.button {
+  transition: all 0.3s ease;
+}`,
+          isCorrect: true,
+          feedback: "transition: all 0.3s ease — xossa, davomiylik va funksiya bilan to'g'ri sintaksis.",
+        },
+        {
+          id: "transition-short",
+          label: `.button {
+  transition: 0.3s;
+}`,
+          feedback: "Xossa yetishmaydi: transition qaysi xossani animatsiya qilishni bilishi kerak.",
+        },
+        {
+          id: "transition-wrong",
+          label: `.button {
+  transition: all ease 0.3s;
+}`,
+          feedback: "Tartib muhim: xossa, davomiylik, vaqt funksiyasi. To'g'ri: all 0.3s ease.",
+        },
+      ],
+      visual: {
+        type: "box",
+        initialOptionId: "transition-correct",
+        variants: {
+          "transition-correct": { width: 180, height: 50, background: "#3b82f6", color: "#ffffff", borderRadius: 8, label: "Silliq" },
+          "transition-short": { width: 180, height: 50, background: "#fee2e2", borderRadius: 8, label: "Ishlamaydi" },
+          "transition-wrong": { width: 180, height: 50, background: "#fef3c7", borderRadius: 8, label: "Xato" },
+        },
+      },
+    },
+    animation: {
+      title: "Mini o'yin: Aylanuvchi spinner",
+      prompt: "1 soniyada cheksiz aylanish uchun to'g'ri animation sintaksisini tanlang.",
+      status: {
+        idle: "To'g'ri animation variantini tanlang.",
+        correct: "Ajoyib! Animation nom, davomiylik, vaqt funksiyasi va takrorlanishni talab qiladi.",
+        incorrect: "Animation kerak: animatsiya nomi, davomiylik, vaqt funksiyasi va takrorlanish soni.",
+      },
+      options: [
+        {
+          id: "animation-correct",
+          label: `.spinner {
+  animation: spin 1s linear infinite;
+}`,
+          isCorrect: true,
+          feedback: "animation: spin 1s linear infinite — nom, davomiylik, funksiya va takrorlanish bilan to'g'ri sintaksis.",
+        },
+        {
+          id: "animation-short",
+          label: `.spinner {
+  animation: spin;
+}`,
+          feedback: "Davomiylik va boshqa parametrlar yetishmaydi — animatsiya to'g'ri ishlamaydi.",
+        },
+        {
+          id: "animation-wrong",
+          label: `.spinner {
+  animation: spin infinite 1s;
+}`,
+          feedback: "Tartib muhim: nom, davomiylik, vaqt funksiyasi, takrorlanish. To'g'ri: spin 1s linear infinite.",
+        },
+      ],
+      visual: {
+        type: "box",
+        initialOptionId: "animation-correct",
+        variants: {
+          "animation-correct": { width: 60, height: 60, background: "conic-gradient(from 0deg, #3b82f6 0deg 90deg, #e5e7eb 90deg)", borderRadius: 30, label: "Aylanadi" },
+          "animation-short": { width: 60, height: 60, background: "#fee2e2", borderRadius: 30, label: "Ishlamaydi" },
+          "animation-wrong": { width: 60, height: 60, background: "#fef3c7", borderRadius: 30, label: "Xato" },
         },
       },
     },
