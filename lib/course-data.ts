@@ -340,6 +340,17 @@ export const lessons: LessonMeta[] = [
     },
     tags: ["html", "css", "base"],
   },
+  {
+    slug: "css-advanced",
+    title: "CSS: Продвинутые свойства",
+    summary: "Z-index, Transform, Overflow, Transition и Animation.",
+    date: "2025-11-14",
+    languages: {
+      ru: true,
+      uz: true,
+    },
+    tags: ["css", "advanced", "animations"],
+  },
 ]
 
 export const scheduleSections = [
@@ -350,162 +361,95 @@ export const scheduleSections = [
 ] as const
 
 export const courseContent = {
-  ru: {
-    title: "HTML и CSS для начинающих",
-    subtitle: "Изучите основные концепции веб-разработки",
-    topics: [
-      {
-        id: "link",
-        title: "HTML: Ссылки (<a href>)",
-        explanation:
-          "Элемент <a> используется для создания гиперссылок на другие страницы или ресурсы. Атрибут href указывает адрес целевой страницы.",
-        correct: `<a href="https://example.com" class="link">Перейти на сайт</a>`,
-        incorrect: `<a>Перейти на сайт</a>`,
-        bestPractice: "Всегда используйте атрибут href. Добавляйте описательный текст ссылки.",
-        preview: "combined" as const,
-        htmlCode: `<a href="https://example.com" class="link">Перейти на сайт</a>`,
-        cssCode: cssSnippets.link,
-      },
-      {
-        id: "div",
-        title: "HTML: Контейнер (<div>)",
-        explanation:
-          "<div> — это универсальный контейнер для группировки содержимого. Это блочный элемент, который занимает всю доступную ширину.",
-        correct: `<div class="container">
+  "html-css-intro": {
+    ru: {
+      title: "HTML и CSS для начинающих",
+      subtitle: "Изучите основные концепции веб-разработки",
+      topics: [
+        {
+          id: "link",
+          title: "HTML: Ссылки (<a href>)",
+          explanation:
+            "Элемент <a> используется для создания гиперссылок на другие страницы или ресурсы. Атрибут href указывает адрес целевой страницы.",
+          correct: `<a href="https://example.com" class="link">Перейти на сайт</a>`,
+          incorrect: `<a>Перейти на сайт</a>`,
+          bestPractice: "Всегда используйте атрибут href. Добавляйте описательный текст ссылки.",
+          preview: "combined" as const,
+          htmlCode: `<a href="https://example.com" class="link">Перейти на сайт</a>`,
+          cssCode: cssSnippets.link,
+        },
+        {
+          id: "div",
+          title: "HTML: Контейнер (<div>)",
+          explanation:
+            "<div> — это универсальный контейнер для группировки содержимого. Это блочный элемент, который занимает всю доступную ширину.",
+          correct: `<div class="container">
   <h1>Заголовок</h1>
   <p>Содержимое</p>
 </div>`,
-        incorrect: `<div>
+          incorrect: `<div>
 <h1>Заголовок</h1>
 <p>Содержимое</p>`,
-        bestPractice: "Используйте классы и ID для легкой стилизации. Структурируйте контент логично.",
-        preview: "combined" as const,
-        htmlCode: `<div class="container">
+          bestPractice: "Используйте классы и ID для легкой стилизации. Структурируйте контент логично.",
+          preview: "combined" as const,
+          htmlCode: `<div class="container">
   <h1>Заголовок</h1>
   <p>Содержимое контейнера</p>
 </div>`,
-        cssCode: cssSnippets.containerCard,
-      },
-      {
-        id: "display",
-        title: "CSS: Display - Flexbox",
-        explanation:
-          "Свойство display: flex создает гибкий контейнер. Элементы располагаются в ряд с помощью justify-content: center.",
-        correct: `.container { display: flex; justify-content: center; gap: 10px; }`,
-        incorrect: `.container { display: block; }`,
-        bestPractice: "Используйте flexbox для современных макетов и выравнивания.",
-        preview: "css" as const,
-        htmlCode: `<div class="container">
+          cssCode: cssSnippets.containerCard,
+        },
+        {
+          id: "display",
+          title: "CSS: Display - Flexbox",
+          explanation:
+            "Свойство display: flex создает гибкий контейнер. Элементы располагаются в ряд с помощью justify-content: center.",
+          correct: `.container { display: flex; justify-content: center; gap: 10px; }`,
+          incorrect: `.container { display: block; }`,
+          bestPractice: "Используйте flexbox для современных макетов и выравнивания.",
+          preview: "css" as const,
+          htmlCode: `<div class="container">
   <div class="item">Item 1</div>
   <div class="item">Item 2</div>
   <div class="item">Item 3</div>
 </div>`,
-        cssCode: cssSnippets.flexLayout,
-      },
-      {
-        id: "zindex",
-        title: "CSS: Z-index - Наложение слоёв",
-        explanation:
-          "Z-index контролирует порядок наложения элементов. Работает только с позиционированными элементами (position: relative, absolute, fixed).",
-        correct: `.modal { position: fixed; z-index: 1000; background: white; }`,
-        incorrect: `.modal { z-index: 1000; }`,
-        bestPractice: "Используйте логичную систему значений z-index (например, 100, 200, 300).",
-        preview: "css" as const,
-        htmlCode: `<div class="container">
-  <div class="item item1">Слой 1</div>
-  <div class="item item2">Слой 2</div>
-  <div class="item item3">Слой 3</div>
-</div>`,
-        cssCode: cssSnippets.zIndexDemo,
-      },
-      {
-        id: "position",
-        title: "CSS: Position - Позиционирование",
-        explanation: "Position определяет способ позиционирования элемента: static, relative, absolute, fixed, sticky.",
-        correct: `.fixed-header { position: fixed; top: 0; width: 100%; }`,
-        incorrect: `.header { position: absolute; }`,
-        bestPractice: "Используйте fixed для заголовков, absolute для наложения на контекст.",
-        preview: "css" as const,
-        htmlCode: `<div class="container">
+          cssCode: cssSnippets.flexLayout,
+        },
+        {
+          id: "position",
+          title: "CSS: Position - Позиционирование",
+          explanation: "Position определяет способ позиционирования элемента: static, relative, absolute, fixed, sticky.",
+          correct: `.fixed-header { position: fixed; top: 0; width: 100%; }`,
+          incorrect: `.header { position: absolute; }`,
+          bestPractice: "Используйте fixed для заголовков, absolute для наложения на контекст.",
+          preview: "css" as const,
+          htmlCode: `<div class="container">
   <div class="fixed">Fixed</div>
   <div class="static">Static</div>
 </div>`,
-        cssCode: cssSnippets.positionDemo,
-      },
-      {
-        id: "margin-padding",
-        title: "CSS: Margin и Padding - Отступы",
-        explanation:
-          "Padding — внутреннее пространство внутри элемента. Margin — внешнее пространство вокруг элемента.",
-        correct: `.box { padding: 20px; margin: 10px 0; background: #dbeafe; }`,
-        incorrect: `.box { padding: 20px; padding: 10px; }`,
-        bestPractice: "Используйте сокращенную форму: margin: top right bottom left;",
-        preview: "css" as const,
-        htmlCode: `<div class="container">
+          cssCode: cssSnippets.positionDemo,
+        },
+        {
+          id: "margin-padding",
+          title: "CSS: Margin и Padding - Отступы",
+          explanation:
+            "Padding — внутреннее пространство внутри элемента. Margin — внешнее пространство вокруг элемента.",
+          correct: `.box { padding: 20px; margin: 10px 0; background: #dbeafe; }`,
+          incorrect: `.box { padding: 20px; padding: 10px; }`,
+          bestPractice: "Используйте сокращенную форму: margin: top right bottom left;",
+          preview: "css" as const,
+          htmlCode: `<div class="container">
   <div class="item">Элемент 1</div>
   <div class="item">Элемент 2</div>
   <div class="item">Элемент 3</div>
 </div>`,
-        cssCode: cssSnippets.spacingDemo,
-      },
-      {
-        id: "transform",
-        title: "CSS: Transform - Преобразования",
-        explanation:
-          "Transform позволяет перемещать, поворачивать, масштабировать и наклонять элементы. Не влияет на поток документа.",
-        correct: `.card { transform: rotate(15deg) scale(1.1); }`,
-        incorrect: `.card { rotate: 15deg; scale: 1.1; }`,
-        bestPractice: "Используйте transform для анимаций вместо изменения позиции — это производительнее.",
-        preview: "css" as const,
-        htmlCode: `<div class="card">Карточка</div>`,
-        cssCode: cssSnippets.transformDemo,
-      },
-      {
-        id: "overflow",
-        title: "CSS: Overflow - Переполнение",
-        explanation:
-          "Overflow определяет, что происходит с содержимым, которое выходит за границы элемента: visible, hidden, scroll, auto.",
-        correct: `.container { overflow: auto; height: 200px; }`,
-        incorrect: `.container { overflow: visible; height: 200px; }`,
-        bestPractice: "Используйте overflow: auto для прокрутки только при необходимости, hidden — для скрытия.",
-        preview: "css" as const,
-        htmlCode: `<div class="container">
-  <div class="content">
-    Длинный текст, который может выходить за границы контейнера и требует прокрутки для просмотра всего содержимого.
-  </div>
-</div>`,
-        cssCode: cssSnippets.overflowDemo,
-      },
-      {
-        id: "transition",
-        title: "CSS: Transition - Плавные переходы",
-        explanation:
-          "Transition создаёт плавную анимацию изменения свойств. Указывайте свойство, длительность и функцию времени.",
-        correct: `.button { transition: all 0.3s ease; }`,
-        incorrect: `.button { transition: 0.3s; }`,
-        bestPractice: "Используйте transition для интерактивных элементов. Указывайте конкретные свойства вместо 'all' для производительности.",
-        preview: "css" as const,
-        htmlCode: `<button class="button">Навести курсор</button>`,
-        cssCode: cssSnippets.transitionDemo,
-      },
-      {
-        id: "animation",
-        title: "CSS: Animation - Анимации",
-        explanation:
-          "Animation позволяет создавать сложные анимации с помощью @keyframes. Можно задать длительность, задержку, повторение.",
-        correct: `.spinner { animation: spin 1s linear infinite; }`,
-        incorrect: `.spinner { animation: spin; }`,
-        bestPractice: "Используйте animation для повторяющихся эффектов. Определяйте @keyframes с понятными именами.",
-        preview: "css" as const,
-        htmlCode: `<div class="spinner"></div>`,
-        cssCode: cssSnippets.animationDemo,
-      },
-    ],
-  },
-  uz: {
-    title: "Boshlang'ichlar uchun HTML va CSS",
-    subtitle: "Ustiga tushadigan mavzular va amaliy mashqlar bir joyda",
-    topics: [
+          cssCode: cssSnippets.spacingDemo,
+        },
+      ],
+    },
+    uz: {
+      title: "Boshlang'ichlar uchun HTML va CSS",
+      subtitle: "Ustiga tushadigan mavzular va amaliy mashqlar bir joyda",
+      topics: [
       {
         id: "image",
         title: "HTML: Rasm (<img>)",
@@ -761,160 +705,258 @@ export const courseContent = {
 </div>`,
         cssCode: cssSnippets.flexLayout,
       },
-      {
-        id: "zindex",
-        title: "CSS: Z-index - Qatlamlar tartibi",
-        explanation:
-          "Z-index elementlarning ko‘rinish tartibini boshqaradi. Faqat position bilan ishlaydi (relative, absolute, fixed).",
-        correct: `.modal { position: fixed; z-index: 1000; background: white; }`,
-        incorrect: `.modal { z-index: 1000; }`,
-        bestPractice: "Z-index qiymatlarini mantiqiy tizimda ishlating (masalan, 100, 200, 300).",
-        preview: "css" as const,
-        htmlCode: `<div class="container">
+    ],
+  },
+  "css-advanced": {
+    ru: {
+      title: "CSS: Продвинутые свойства",
+      subtitle: "Z-index, Transform, Overflow, Transition и Animation",
+      topics: [
+        {
+          id: "zindex",
+          title: "CSS: Z-index - Наложение слоёв",
+          explanation:
+            "Z-index контролирует порядок наложения элементов. Работает только с позиционированными элементами (position: relative, absolute, fixed).",
+          correct: `.modal { position: fixed; z-index: 1000; background: white; }`,
+          incorrect: `.modal { z-index: 1000; }`,
+          bestPractice: "Используйте логичную систему значений z-index (например, 100, 200, 300).",
+          preview: "css" as const,
+          htmlCode: `<div class="container">
+  <div class="item item1">Слой 1</div>
+  <div class="item item2">Слой 2</div>
+  <div class="item item3">Слой 3</div>
+</div>`,
+          cssCode: cssSnippets.zIndexDemo,
+        },
+        {
+          id: "transform",
+          title: "CSS: Transform - Преобразования",
+          explanation:
+            "Transform позволяет перемещать, поворачивать, масштабировать и наклонять элементы. Не влияет на поток документа.",
+          correct: `.card { transform: rotate(15deg) scale(1.1); }`,
+          incorrect: `.card { rotate: 15deg; scale: 1.1; }`,
+          bestPractice: "Используйте transform для анимаций вместо изменения позиции — это производительнее.",
+          preview: "css" as const,
+          htmlCode: `<div class="card">Карточка</div>`,
+          cssCode: cssSnippets.transformDemo,
+        },
+        {
+          id: "overflow",
+          title: "CSS: Overflow - Переполнение",
+          explanation:
+            "Overflow определяет, что происходит с содержимым, которое выходит за границы элемента: visible, hidden, scroll, auto.",
+          correct: `.container { overflow: auto; height: 200px; }`,
+          incorrect: `.container { overflow: visible; height: 200px; }`,
+          bestPractice: "Используйте overflow: auto для прокрутки только при необходимости, hidden — для скрытия.",
+          preview: "css" as const,
+          htmlCode: `<div class="container">
+  <div class="content">
+    Длинный текст, который может выходить за границы контейнера и требует прокрутки для просмотра всего содержимого.
+  </div>
+</div>`,
+          cssCode: cssSnippets.overflowDemo,
+        },
+        {
+          id: "transition",
+          title: "CSS: Transition - Плавные переходы",
+          explanation:
+            "Transition создаёт плавную анимацию изменения свойств. Указывайте свойство, длительность и функцию времени.",
+          correct: `.button { transition: all 0.3s ease; }`,
+          incorrect: `.button { transition: 0.3s; }`,
+          bestPractice: "Используйте transition для интерактивных элементов. Указывайте конкретные свойства вместо 'all' для производительности.",
+          preview: "css" as const,
+          htmlCode: `<button class="button">Навести курсор</button>`,
+          cssCode: cssSnippets.transitionDemo,
+        },
+        {
+          id: "animation",
+          title: "CSS: Animation - Анимации",
+          explanation:
+            "Animation позволяет создавать сложные анимации с помощью @keyframes. Можно задать длительность, задержку, повторение.",
+          correct: `.spinner { animation: spin 1s linear infinite; }`,
+          incorrect: `.spinner { animation: spin; }`,
+          bestPractice: "Используйте animation для повторяющихся эффектов. Определяйте @keyframes с понятными именами.",
+          preview: "css" as const,
+          htmlCode: `<div class="spinner"></div>`,
+          cssCode: cssSnippets.animationDemo,
+        },
+      ],
+    },
+    uz: {
+      title: "CSS: Ilg'or xossalari",
+      subtitle: "Z-index, Transform, Overflow, Transition va Animation",
+      topics: [
+        {
+          id: "zindex",
+          title: "CSS: Z-index - Qatlamlar tartibi",
+          explanation:
+            "Z-index elementlarning ko'rinish tartibini boshqaradi. Faqat position bilan ishlaydi (relative, absolute, fixed).",
+          correct: `.modal { position: fixed; z-index: 1000; background: white; }`,
+          incorrect: `.modal { z-index: 1000; }`,
+          bestPractice: "Z-index qiymatlarini mantiqiy tizimda ishlating (masalan, 100, 200, 300).",
+          preview: "css" as const,
+          htmlCode: `<div class="container">
   <div class="item item1">Qatlam 1</div>
   <div class="item item2">Qatlam 2</div>
   <div class="item item3">Qatlam 3</div>
 </div>`,
-        cssCode: cssSnippets.zIndexDemo,
-      },
-      {
-        id: "transform",
-        title: "CSS: Transform - O'zgartirishlar",
-        explanation:
-          "Transform elementlarni ko'chirish, aylantirish, kattalashtirish va egish imkonini beradi. Hujjat oqimiga ta'sir qilmaydi.",
-        correct: `.card { transform: rotate(15deg) scale(1.1); }`,
-        incorrect: `.card { rotate: 15deg; scale: 1.1; }`,
-        bestPractice: "Animatsiyalar uchun transform dan foydalaning, pozitsiyani o'zgartirish o'rniga — bu tezroq.",
-        preview: "css" as const,
-        htmlCode: `<div class="card">Kartochka</div>`,
-        cssCode: cssSnippets.transformDemo,
-      },
-      {
-        id: "overflow",
-        title: "CSS: Overflow - Oqib chiqish",
-        explanation:
-          "Overflow element chegarasidan tashqariga chiqib ketgan kontentga nima bo'lishini belgilaydi: visible, hidden, scroll, auto.",
-        correct: `.container { overflow: auto; height: 200px; }`,
-        incorrect: `.container { overflow: visible; height: 200px; }`,
-        bestPractice: "Kerak bo'lganda scroll uchun overflow: auto, yashirish uchun hidden ishlating.",
-        preview: "css" as const,
-        htmlCode: `<div class="container">
+          cssCode: cssSnippets.zIndexDemo,
+        },
+        {
+          id: "transform",
+          title: "CSS: Transform - O'zgartirishlar",
+          explanation:
+            "Transform elementlarni ko'chirish, aylantirish, kattalashtirish va egish imkonini beradi. Hujjat oqimiga ta'sir qilmaydi.",
+          correct: `.card { transform: rotate(15deg) scale(1.1); }`,
+          incorrect: `.card { rotate: 15deg; scale: 1.1; }`,
+          bestPractice: "Animatsiyalar uchun transform dan foydalaning, pozitsiyani o'zgartirish o'rniga — bu tezroq.",
+          preview: "css" as const,
+          htmlCode: `<div class="card">Kartochka</div>`,
+          cssCode: cssSnippets.transformDemo,
+        },
+        {
+          id: "overflow",
+          title: "CSS: Overflow - Oqib chiqish",
+          explanation:
+            "Overflow element chegarasidan tashqariga chiqib ketgan kontentga nima bo'lishini belgilaydi: visible, hidden, scroll, auto.",
+          correct: `.container { overflow: auto; height: 200px; }`,
+          incorrect: `.container { overflow: visible; height: 200px; }`,
+          bestPractice: "Kerak bo'lganda scroll uchun overflow: auto, yashirish uchun hidden ishlating.",
+          preview: "css" as const,
+          htmlCode: `<div class="container">
   <div class="content">
     Uzoq matn, konteyner chegarasidan tashqariga chiqishi mumkin va barcha kontentni ko'rish uchun scroll kerak bo'ladi.
   </div>
 </div>`,
-        cssCode: cssSnippets.overflowDemo,
-      },
-      {
-        id: "transition",
-        title: "CSS: Transition - Silliq o'tishlar",
-        explanation:
-          "Transition xossalarning o'zgarishini silliq animatsiya qiladi. Xossa, davomiylik va vaqt funksiyasini ko'rsating.",
-        correct: `.button { transition: all 0.3s ease; }`,
-        incorrect: `.button { transition: 0.3s; }`,
-        bestPractice: "Interaktiv elementlar uchun transition ishlating. Samaradorlik uchun 'all' o'rniga aniq xossalarni ko'rsating.",
-        preview: "css" as const,
-        htmlCode: `<button class="button">Kursorni olib boring</button>`,
-        cssCode: cssSnippets.transitionDemo,
-      },
-      {
-        id: "animation",
-        title: "CSS: Animation - Animatsiyalar",
-        explanation:
-          "Animation @keyframes yordamida murakkab animatsiyalar yaratishga imkon beradi. Davomiylik, kechikish va takrorlanishni belgilashingiz mumkin.",
-        correct: `.spinner { animation: spin 1s linear infinite; }`,
-        incorrect: `.spinner { animation: spin; }`,
-        bestPractice: "Takrorlanuvchi effektlar uchun animation ishlating. @keyframes ni tushunarli nomlar bilan belgilang.",
-        preview: "css" as const,
-        htmlCode: `<div class="spinner"></div>`,
-        cssCode: cssSnippets.animationDemo,
-      },
-    ],
+          cssCode: cssSnippets.overflowDemo,
+        },
+        {
+          id: "transition",
+          title: "CSS: Transition - Silliq o'tishlar",
+          explanation:
+            "Transition xossalarning o'zgarishini silliq animatsiya qiladi. Xossa, davomiylik va vaqt funksiyasini ko'rsating.",
+          correct: `.button { transition: all 0.3s ease; }`,
+          incorrect: `.button { transition: 0.3s; }`,
+          bestPractice: "Interaktiv elementlar uchun transition ishlating. Samaradorlik uchun 'all' o'rniga aniq xossalarni ko'rsating.",
+          preview: "css" as const,
+          htmlCode: `<button class="button">Kursorni olib boring</button>`,
+          cssCode: cssSnippets.transitionDemo,
+        },
+        {
+          id: "animation",
+          title: "CSS: Animation - Animatsiyalar",
+          explanation:
+            "Animation @keyframes yordamida murakkab animatsiyalar yaratishga imkon beradi. Davomiylik, kechikish va takrorlanishni belgilashingiz mumkin.",
+          correct: `.spinner { animation: spin 1s linear infinite; }`,
+          incorrect: `.spinner { animation: spin; }`,
+          bestPractice: "Takrorlanuvchi effektlar uchun animation ishlating. @keyframes ni tushunarli nomlar bilan belgilang.",
+          preview: "css" as const,
+          htmlCode: `<div class="spinner"></div>`,
+          cssCode: cssSnippets.animationDemo,
+        },
+      ],
+    },
   },
 }
 
 export const courseHomework = {
-  ru: {
-    title: "Домашнее задание",
-    description: "Практикуйте полученные навыки с этими упражнениями:",
-    tasks: [
-      {
-        title: "Задача 1: Создать навигацию",
-        description:
-          "Создайте навигационное меню с тремя ссылками (главная, о нас, контакты) с использованием HTML и CSS. Используйте flexbox для расположения элементов в ряд.",
-      },
-      {
-        title: "Задача 2: Позиционированная модальное окно",
-        description:
-          "Создайте модальное окно с использованием position: fixed и z-index. Добавьте кнопку для закрытия и полупрозрачный фон.",
-      },
-      {
-        title: "Задача 3: Карточка товара",
-        description:
-          'Создайте карточку товара с изображением, названием, ценой и ссылкой "Купить". Используйте padding, margin и display для оформления.',
-      },
-      {
-        title: "Задача 4: Анимированная кнопка с transform",
-        description:
-          "Создайте кнопку, которая при наведении поворачивается на 5 градусов и увеличивается в масштабе. Используйте transform и transition для плавной анимации.",
-      },
-      {
-        title: "Задача 5: Контейнер с прокруткой",
-        description:
-          "Создайте контейнер фиксированной высоты с длинным текстом внутри. Используйте overflow: auto для добавления прокрутки только при необходимости.",
-      },
-      {
-        title: "Задача 6: Плавные переходы",
-        description:
-          "Создайте карточку с hover-эффектом: при наведении цвет фона и размер должны плавно изменяться. Используйте transition для всех свойств.",
-      },
-      {
-        title: "Задача 7: Вращающийся индикатор загрузки",
-        description:
-          "Создайте анимированный спиннер загрузки, который бесконечно вращается. Используйте @keyframes и animation для создания эффекта вращения.",
-      },
-    ],
+  "html-css-intro": {
+    ru: {
+      title: "Домашнее задание",
+      description: "Практикуйте полученные навыки с этими упражнениями:",
+      tasks: [
+        {
+          title: "Задача 1: Создать навигацию",
+          description:
+            "Создайте навигационное меню с тремя ссылками (главная, о нас, контакты) с использованием HTML и CSS. Используйте flexbox для расположения элементов в ряд.",
+        },
+        {
+          title: "Задача 2: Позиционированная модальное окно",
+          description:
+            "Создайте модальное окно с использованием position: fixed и z-index. Добавьте кнопку для закрытия и полупрозрачный фон.",
+        },
+        {
+          title: "Задача 3: Карточка товара",
+          description:
+            'Создайте карточку товара с изображением, названием, ценой и ссылкой "Купить". Используйте padding, margin и display для оформления.',
+        },
+      ],
+    },
+    uz: {
+      title: "Uyga vazifa",
+      description: "Bu mashqlar orqali o'rganilgan ko'nikmalarni amaliyot qiling:",
+      tasks: [
+        {
+          title: "Vazifa 1: Profil kartasi",
+          description:
+            "Profil kartasi yarating: rasm (alt matni bilan), ism va qisqa tavsif. Class va id orqali stil bering.",
+        },
+        {
+          title: "Vazifa 2: Haftalik jadval",
+          description:
+            "HTML jadval yordamida haftalik o'quv jadvalini tuzing. Thead/tbody ishlating va jadvalni CSS bilan bezang.",
+        },
+        {
+          title: "Vazifa 3: Stil mashqi",
+          description:
+            "Bir sahifada quyidagi xossalardan foydalaning: background-color, color, width/height, margin/padding va display.",
+        },
+      ],
+    },
   },
-  uz: {
-    title: "Uyga vazifa",
-    description: "Bu mashqlar orqali o'rganilgan ko'nikmalarni amaliyot qiling:",
-    tasks: [
-      {
-        title: "Vazifa 1: Profil kartasi",
-        description:
-          "Profil kartasi yarating: rasm (alt matni bilan), ism va qisqa tavsif. Class va id orqali stil bering.",
-      },
-      {
-        title: "Vazifa 2: Haftalik jadval",
-        description:
-          "HTML jadval yordamida haftalik o'quv jadvalini tuzing. Thead/tbody ishlating va jadvalni CSS bilan bezang.",
-      },
-      {
-        title: "Vazifa 3: Stil mashqi",
-        description:
-          "Bir sahifada quyidagi xossalardan foydalaning: background-color, color, width/height, margin/padding va display.",
-      },
-      {
-        title: "Vazifa 4: Transform bilan animatsiyalangan tugma",
-        description:
-          "Kursor olib borilganda 5 daraja aylanadigan va kattalashadigan tugma yarating. Silliq animatsiya uchun transform va transition ishlating.",
-      },
-      {
-        title: "Vazifa 5: Scroll bilan konteyner",
-        description:
-          "Belgilangan balandlikdagi konteyner yarating va ichiga uzoq matn qo'shing. Kerak bo'lganda scroll uchun overflow: auto ishlating.",
-      },
-      {
-        title: "Vazifa 6: Silliq o'tishlar",
-        description:
-          "Hover-effektli kartochka yarating: kursorni olib borilganda fon rangi va o'lcham silliq o'zgarsin. Barcha xossalarni transition bilan boshqaring.",
-      },
-      {
-        title: "Vazifa 7: Aylanuvchi yuklanish ko'rsatkichi",
-        description:
-          "Cheksiz aylanadigan yuklanish spinner yarating. Aylanish effekti uchun @keyframes va animation ishlating.",
-      },
-    ],
+  "css-advanced": {
+    ru: {
+      title: "Домашнее задание",
+      description: "Практикуйте полученные навыки с этими упражнениями:",
+      tasks: [
+        {
+          title: "Задача 1: Анимированная кнопка с transform",
+          description:
+            "Создайте кнопку, которая при наведении поворачивается на 5 градусов и увеличивается в масштабе. Используйте transform и transition для плавной анимации.",
+        },
+        {
+          title: "Задача 2: Контейнер с прокруткой",
+          description:
+            "Создайте контейнер фиксированной высоты с длинным текстом внутри. Используйте overflow: auto для добавления прокрутки только при необходимости.",
+        },
+        {
+          title: "Задача 3: Плавные переходы",
+          description:
+            "Создайте карточку с hover-эффектом: при наведении цвет фона и размер должны плавно изменяться. Используйте transition для всех свойств.",
+        },
+        {
+          title: "Задача 4: Вращающийся индикатор загрузки",
+          description:
+            "Создайте анимированный спиннер загрузки, который бесконечно вращается. Используйте @keyframes и animation для создания эффекта вращения.",
+        },
+      ],
+    },
+    uz: {
+      title: "Uyga vazifa",
+      description: "Bu mashqlar orqali o'rganilgan ko'nikmalarni amaliyot qiling:",
+      tasks: [
+        {
+          title: "Vazifa 1: Transform bilan animatsiyalangan tugma",
+          description:
+            "Kursor olib borilganda 5 daraja aylanadigan va kattalashadigan tugma yarating. Silliq animatsiya uchun transform va transition ishlating.",
+        },
+        {
+          title: "Vazifa 2: Scroll bilan konteyner",
+          description:
+            "Belgilangan balandlikdagi konteyner yarating va ichiga uzoq matn qo'shing. Kerak bo'lganda scroll uchun overflow: auto ishlating.",
+        },
+        {
+          title: "Vazifa 3: Silliq o'tishlar",
+          description:
+            "Hover-effektli kartochka yarating: kursorni olib borilganda fon rangi va o'lcham silliq o'zgarsin. Barcha xossalarni transition bilan boshqaring.",
+        },
+        {
+          title: "Vazifa 4: Aylanuvchi yuklanish ko'rsatkichi",
+          description:
+            "Cheksiz aylanadigan yuklanish spinner yarating. Aylanish effekti uchun @keyframes va animation ishlating.",
+        },
+      ],
+    },
   },
 }
 

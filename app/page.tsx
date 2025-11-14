@@ -80,8 +80,8 @@ export default function Home() {
       }).format(new Date(selectedLessonMeta.date))
     : null
 
-  const currentContent = courseContent[language]
-  const currentHomework = courseHomework[language]
+  const currentContent = selectedLessonSlug ? courseContent[selectedLessonSlug]?.[language] : null
+  const currentHomework = selectedLessonSlug ? courseHomework[selectedLessonSlug]?.[language] : null
   const gamesForLanguage = topicGamesData[language] ?? {}
   const hasLessonDetail = Boolean(selectedLessonSlug && selectedLessonMeta)
 
@@ -144,8 +144,8 @@ export default function Home() {
             <span className={styles.heroBadge}>
               {language === "ru" ? "✨ Пошаговое обучение с нуля" : "✨ Boshlang‘ich bosqichdan qadamma-qadam"}
             </span>
-            <h1>{currentContent.title}</h1>
-            <p>{currentContent.subtitle}</p>
+            <h1>{currentContent?.title ?? ""}</h1>
+            <p>{currentContent?.subtitle ?? ""}</p>
 
             <div className={styles.groupSwitch} role="radiogroup" aria-label="Выбор учебной группы">
               <button
@@ -331,9 +331,9 @@ export default function Home() {
 
               <div className={styles.lessonDetailBody}>
                 <div className={styles.topics} id="topics">
-          {currentContent.topics.map((topic, index) => (
+          {currentContent?.topics.map((topic, index) => (
                     <TopicSection key={topic.id} topic={topic} index={index} game={gamesForLanguage[topic.id]} />
-          ))}
+          )) ?? null}
         </div>
 
                 <section id="games" className={styles.lessonExtras}>
@@ -342,7 +342,7 @@ export default function Home() {
 
         <CombinedExample language={language} />
                 <div id="homework">
-        <HomeworkSection homework={currentHomework} />
+        <HomeworkSection homework={currentHomework ?? undefined} />
                 </div>
               </div>
             </>
