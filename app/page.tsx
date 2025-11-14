@@ -15,7 +15,9 @@ import {
   scheduleSections,
   topicGamesData,
   type LessonMeta,
+  type SupportedLanguage,
 } from "@/lib/course-data"
+import type { TopicGameContent } from "@/components/topic-game"
 import { useAnimeReveal } from "@/hooks/use-anime-reveal"
 import styles from "./page.module.css"
 
@@ -28,7 +30,7 @@ export default function Home() {
     return scheduleSections
       .map((section) => {
         const localizedLessons = section.lessons
-          .filter((lesson) => lesson.languages[language])
+          .filter((lesson) => lesson.languages[language as keyof typeof lesson.languages])
           .slice()
           .sort((a, b) => a.date.localeCompare(b.date))
         if (!localizedLessons.length) {
@@ -51,7 +53,7 @@ export default function Home() {
   }, [language])
 
   const availableLessons = useMemo(
-    () => scheduleGroups.flatMap((group) => group.lessons),
+    () => scheduleGroups.flatMap((group: { title: string; lessons: LessonMeta[] }) => group.lessons),
     [scheduleGroups],
   )
 
@@ -63,13 +65,13 @@ export default function Home() {
       return
     }
 
-    if (!selectedLessonSlug || !availableLessons.some((lesson) => lesson.slug === selectedLessonSlug)) {
+    if (!selectedLessonSlug || !availableLessons.some((lesson: LessonMeta) => lesson.slug === selectedLessonSlug)) {
       setSelectedLessonSlug(availableLessons[0].slug)
     }
   }, [availableLessons, selectedLessonSlug])
 
   const selectedLessonMeta = selectedLessonSlug
-    ? availableLessons.find((lesson) => lesson.slug === selectedLessonSlug) ?? null
+    ? availableLessons.find((lesson: LessonMeta) => lesson.slug === selectedLessonSlug) ?? null
     : null
   const selectedLessonIsToday = selectedLessonMeta?.date === todayISO
   const selectedLessonDateLabel = selectedLessonMeta
@@ -80,9 +82,13 @@ export default function Home() {
       }).format(new Date(selectedLessonMeta.date))
     : null
 
-  const currentContent = selectedLessonSlug ? courseContent[selectedLessonSlug]?.[language] : null
-  const currentHomework = selectedLessonSlug ? courseHomework[selectedLessonSlug]?.[language] : null
-  const gamesForLanguage = topicGamesData[language] ?? {}
+  const currentContent = selectedLessonSlug && selectedLessonSlug in courseContent 
+    ? (courseContent as Record<string, Record<SupportedLanguage, { title: string; subtitle: string; topics: Array<{ id: string; title: string; explanation: string; correct: string; incorrect: string; bestPractice: string; preview?: "html" | "css" | "combined"; htmlCode?: string; cssCode?: string }> }>>)[selectedLessonSlug]?.[language as SupportedLanguage] 
+    : null
+  const currentHomework = selectedLessonSlug && selectedLessonSlug in courseHomework
+    ? (courseHomework as Record<string, Record<SupportedLanguage, { title: string; description: string; tasks: Array<{ title: string; description: string }> }>>)[selectedLessonSlug]?.[language as SupportedLanguage]
+    : null
+  const gamesForLanguage = (topicGamesData as Record<SupportedLanguage, Record<string, TopicGameContent>>)[language as SupportedLanguage] ?? {}
   const hasLessonDetail = Boolean(selectedLessonSlug && selectedLessonMeta)
 
   const heroRef = useAnimeReveal<HTMLElement>({
@@ -189,7 +195,7 @@ export default function Home() {
             </div>
 
             <div className={styles.heroStats} ref={statsRef}>
-              {stats.map((stat) => (
+              {stats.map((stat: { value: string; label: string }) => (
                 <div key={stat.label} className={styles.heroStat} data-stat>
                   <strong>{stat.value}</strong>
                   <span>{stat.label}</span>
@@ -237,7 +243,7 @@ export default function Home() {
             </div>
           ) : (
             <div className={styles.scheduleTimeline}>
-              {scheduleGroups.map((group) => (
+              {scheduleGroups.map((group: { title: string; lessons: LessonMeta[] }) => (
                 <div key={group.title} className={styles.scheduleSection}>
                   <div className={styles.scheduleSectionHeader}>
                     <h3 className={styles.scheduleSectionTitle}>{group.title}</h3>
@@ -249,7 +255,7 @@ export default function Home() {
                   </div>
 
                   <div className={styles.lessonList}>
-                    {group.lessons.map((lesson) => {
+                    {group.lessons.map((lesson: LessonMeta) => {
                       const isSelected = lesson.slug === selectedLessonSlug
                       const isToday = lesson.date === todayISO
                       const formattedDate = new Intl.DateTimeFormat(language === "ru" ? "ru-RU" : "uz-UZ", {
@@ -279,7 +285,7 @@ export default function Home() {
                             <p className={styles.lessonSummary}>{lesson.summary}</p>
                             {lesson.tags && (
                               <div className={styles.lessonTags}>
-                                {lesson.tags.map((tag) => (
+                                {lesson.tags.map((tag: string) => (
                                   <span key={tag} className={styles.lessonTag}>
                                     {tag}
                                   </span>
@@ -331,9 +337,17 @@ export default function Home() {
 
               <div className={styles.lessonDetailBody}>
                 <div className={styles.topics} id="topics">
-          {currentContent?.topics.map((topic, index) => (
-                    <TopicSection key={topic.id} topic={topic} index={index} game={gamesForLanguage[topic.id]} />
-          )) ?? null}
+          {currentContent?.topics.map((topic: { id: string; title: string; explanation: string; correct: string; incorrect: string; bestPractice: string; preview?: "html" | "css" | "combined"; htmlCode?: string; cssCode?: string }, index: number) => {
+                    const game = topic.id in gamesForLanguage ? gamesForLanguage[topic.id as keyof typeof gamesForLanguage] : undefined
+                    return (
+                      <TopicSection 
+                        key={topic.id} 
+                        topic={topic} 
+                        index={index} 
+                        game={game} 
+                      />
+                    )
+          }) ?? null}
         </div>
 
                 <section id="games" className={styles.lessonExtras}>
@@ -342,7 +356,7 @@ export default function Home() {
 
         <CombinedExample language={language} />
                 <div id="homework">
-        <HomeworkSection homework={currentHomework ?? undefined} />
+        {currentHomework && <HomeworkSection homework={currentHomework} />}
                 </div>
               </div>
             </>

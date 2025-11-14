@@ -707,6 +707,7 @@ export const courseContent = {
       },
     ],
   },
+  },
   "css-advanced": {
     ru: {
       title: "CSS: Продвинутые свойства",
